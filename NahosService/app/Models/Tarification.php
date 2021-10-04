@@ -2,10 +2,22 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Article;
+use App\Models\DureeLocation;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Tarification extends Model
 {
     use HasFactory;
+
+    public function dureeLocation()
+    {
+        return $this->belongsTo(DureeLocation::class);
+    }
+
+    public function article()
+    {
+        return $this->belongsTo(Article::class);
+    }
 }

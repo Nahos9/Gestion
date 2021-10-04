@@ -2,10 +2,16 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\Tarification;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class DureeLocation extends Model
 {
     use HasFactory;
+
+    public function tarification()
+    {
+        return $this->hasMany(Tarification::class);
+    }
 }

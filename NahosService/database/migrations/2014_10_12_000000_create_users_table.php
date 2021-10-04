@@ -19,8 +19,9 @@ class CreateUsersTable extends Migration
             $table->string('prenom');
             $table->char('sexe');
             $table->string('pieceIdentite');
-            $table->integer('telephone1');
-            $table->integer('telephone2');
+            $table->string('noPieceIdentite');
+            $table->string('telephone1');
+            $table->string('telephone2');
             $table->string('photo');
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
