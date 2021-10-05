@@ -52,11 +52,21 @@ class User extends Authenticatable
 
     public function perimissions()
     {
-        return $this->belongsToMany(Permission::class);
+        return $this->belongsToMany(Permission::class,"user_permission","user_id","permission_id");
     }
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class);
+        return $this->belongsToMany(Role::class, "user_role", "user_id", "role_id");
+    }
+
+    public function hasRole($role)
+    {
+        return $this->roles()->where("nomRole",$role)->first() !== null;
+    }
+
+    public function hasAnyRoles($roles)
+    {
+        return $this->roles()->whereIn("nomRole",$roles)->first() !== null;
     }
 }

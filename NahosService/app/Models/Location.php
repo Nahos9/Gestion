@@ -29,6 +29,6 @@ class Location extends Model
 
     public function articles()
     {
-        return $this->belongsToMany(Article::class);
+        return $this->belongsToMany(Article::class,"article_location","location_id","article_id");
     }
 }
