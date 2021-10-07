@@ -10,7 +10,7 @@ class Utilisateur extends Component
 {
     use WithPagination;
 
-    
+    public $btnAddClick = false;
     protected $paginationTheme = 'bootstrap';
 
     public function render()
@@ -20,5 +20,15 @@ class Utilisateur extends Component
         ])
                 ->extends('layouts.master')
                 ->section('contenu');
+    }
+
+    public function goToAddUser()
+    {
+        return $this->btnAddClick = true;
+    }
+
+    public function goToUser()
+    {
+        return $this->btnAddClick = false;
     }
 }
