@@ -13,6 +13,17 @@ class Utilisateur extends Component
     public $btnAddClick = false;
     protected $paginationTheme = 'bootstrap';
 
+    public $userAdd = [];
+
+    protected $rules = [
+        "userAdd.nom"=>"required",
+        "userAdd.prenom"=>"required",
+        "userAdd.sexe"=>"required",
+        "userAdd.telephone1"=>"required|number",
+        "userAdd.pieceIdentite"=>"required",
+        "userAdd.noPieceIdentite"=>"required",
+    ];
+
     public function render()
     {
         return view('livewire.utilisateurs.index',[
@@ -30,5 +41,11 @@ class Utilisateur extends Component
     public function goToUser()
     {
         return $this->btnAddClick = false;
+    }
+
+    public function addUser()
+    {   
+        $this->validate();
+        dump($this->userAdd);
     }
 }
