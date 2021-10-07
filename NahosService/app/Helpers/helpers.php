@@ -1,5 +1,7 @@
 <?php
 
+use Illuminate\Support\Str;
+
 
 function fullName()
 {
@@ -22,4 +24,31 @@ function getRolesName()
     $i++;
 
     return $rolesName;
+}
+
+function setMenuClasse($route, $classe)
+{
+    $routeActuelle = request()->route()->getName();
+
+    if(contains($routeActuelle,$route))
+    {
+        return $classe;
+    }
+    return "";
+}
+
+function setMenuActive($route)
+{
+    $routeActuelle = request()->route()->getName();
+
+    if($routeActuelle === $route)
+    {
+        return "active";
+    }
+    return "";
+}
+
+function contains($container, $contenu)
+{
+    return Str::contains($container, $contenu);
 }
