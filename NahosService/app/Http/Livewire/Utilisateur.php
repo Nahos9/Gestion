@@ -13,15 +13,17 @@ class Utilisateur extends Component
     public $btnAddClick = false;
     protected $paginationTheme = 'bootstrap';
 
-    public $userAdd = [];
+    // // public $userAdd = [];
+    public $newUser = [];
 
     protected $rules = [
-        "userAdd.nom"=>"required",
-        "userAdd.prenom"=>"required",
-        "userAdd.sexe"=>"required",
-        "userAdd.telephone1"=>"required|number",
-        "userAdd.pieceIdentite"=>"required",
-        "userAdd.noPieceIdentite"=>"required",
+        'newUser.nom' => 'required',
+        'newUser.prenom' => 'required',
+        'newUser.sexe' => 'required',
+        'newUser.email' => 'required|unique:users,email',
+        'newUser.telephone1'=>'required|numeric|unique:users,telephone1',
+        'newUser.pieceIdentite'=>'required',
+        'newUser.noPieceIdentite'=>'required|unique:users,noPieceIdentite'
     ];
 
     public function render()
@@ -44,8 +46,10 @@ class Utilisateur extends Component
     }
 
     public function addUser()
-    {   
-        $this->validate();
-        dump($this->userAdd);
+    {  
+    $validateAttribute = $this->validate();
+    $validateAttribute["newUser"]["password"] = "password";
+    dump($validateAttribute);
+   
     }
 }
