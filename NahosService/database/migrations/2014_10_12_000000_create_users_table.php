@@ -21,8 +21,8 @@ class CreateUsersTable extends Migration
             $table->string('pieceIdentite');
             $table->string('noPieceIdentite');
             $table->string('telephone1');
-            $table->string('telephone2');
-            $table->string('photo');
+            $table->string('telephone2')->nullable();
+            $table->string('photo')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');

@@ -29,7 +29,7 @@ class Utilisateur extends Component
     public function render()
     {
         return view('livewire.utilisateurs.index',[
-            "users"=>User::paginate(3)
+            "users"=>User::latest()->paginate(3)
         ])
                 ->extends('layouts.master')
                 ->section('contenu');
@@ -48,8 +48,12 @@ class Utilisateur extends Component
     public function addUser()
     {  
     $validateAttribute = $this->validate();
+
     $validateAttribute["newUser"]["password"] = "password";
-    dump($validateAttribute);
+
+    User::create($validateAttribute["newUser"]);
+
+    $this->dispatchBrowserEvent("userCretedSucces",["message"=>"Utilisateur crée avec succès!!"]);
    
     }
 }

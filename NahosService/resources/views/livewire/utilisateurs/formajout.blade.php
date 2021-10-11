@@ -36,7 +36,7 @@
         @enderror
         </div>   
         <div class="form-group">
-          <input type="text" class="form-control @error('newUser.email') is-invalid @enderror"  placeholder="Enter votre adresse email" wire:model='newUser.email'>
+          <input type="email" class="form-control @error('newUser.email') is-invalid @enderror"  placeholder="Enter votre adresse email" wire:model='newUser.email'>
           @error('newUser.email')
           {{$message}}
         @enderror
@@ -87,5 +87,16 @@
   <div class="col-3"></div>
     
 </div>
+<script>
+  window.addEventListener("userCreatedSucces",event=>{
 
-
+      // console.log(event);
+      Swal.fire({
+      position: 'top-end',
+      icon: 'success',
+      title: event.detail.message,
+      showConfirmButton: false,
+      timer: 3000
+    })
+  });
+</script>
