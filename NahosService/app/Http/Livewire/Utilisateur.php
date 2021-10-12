@@ -52,8 +52,10 @@ class Utilisateur extends Component
     $validateAttribute["newUser"]["password"] = "password";
 
     User::create($validateAttribute["newUser"]);
+        $this->newUser = [];
+    $this->dispatchBrowserEvent("userCreatedSucces",["message"=>"Utilisateur crée avec succès!!"]);
 
-    $this->dispatchBrowserEvent("userCretedSucces",["message"=>"Utilisateur crée avec succès!!"]);
+    return redirect()->route('user.index');
    
     }
 }

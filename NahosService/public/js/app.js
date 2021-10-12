@@ -22987,10 +22987,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var admin_lte_dist_js_adminlte__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(admin_lte_dist_js_adminlte__WEBPACK_IMPORTED_MODULE_2__);
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
-
-
-
 window.Swal = __webpack_require__(/*! sweetalert2 */ "./node_modules/sweetalert2/dist/sweetalert2.all.js");
+
+
+
 
 /***/ }),
 
