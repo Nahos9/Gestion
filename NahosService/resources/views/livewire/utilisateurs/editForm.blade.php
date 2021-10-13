@@ -2,7 +2,7 @@
 <div class="row">
     <div class="col-3"></div>
     <div class="col-6">
-      <form wire:submit.prevent="addUser()" class="mt-4">
+      <form wire:submit.prevent="updateUser" class="mt-4">
         <div class="card-header bg-primary">
           <h5><i class="fas fa-user-plus"></i> Modifier les infromations de l'utilisateur</h5>
         </div>
@@ -75,7 +75,7 @@
       </div> 
         <div class="card-footer">
           <button type="submit" class="btn btn-primary">Modifier</button>
-          <button type="button" class="btn btn-warning" wire:click.prevent='goToUser()'>Retour à la liste des utilisateurs</button>
+          <button type="button" class="btn btn-danger" wire:click.prevent='goToUser()'>Retour à la liste des utilisateurs</button>
         </div>
       </div>
       </form>
@@ -85,7 +85,7 @@
       
   </div>
   <script>
-    window.addEventListener("userCreatedSucces",event=>{
+    window.addEventListener("editSuccesMessage",event=>{
   
         // console.log(event);
         Swal.fire({
