@@ -28,8 +28,8 @@
         <div class="form-group">
           <select name="" id="" class="form-control @error('newUser.sexe') is-invalid @enderror" wire:model='newUser.sexe'>
             <option value="">----------------</option>
-            <option value="H">Homme</option>
-            <option value="F">Femme</option>
+            <option value="1">Homme</option>
+            <option value="2">Femme</option>
           </select>
           @error('newUser.sexe')
           {{$message}}

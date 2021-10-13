@@ -44,8 +44,8 @@
               <td class="text-center">{{$user->allRoleNames}}</td>
               <td class="text-center"><span class="tag tag-success">{{$user->created_at->diffForHumans()}}</span></td>
               <td class="text-center">
-                <button class="far fa-edit btn btn-link"></button>
-                <button class="far fa-trash-alt btn btn-link"></button>
+                <button class="btn btn-link" ><i class="far fa-edit btn btn-link"></i></button>
+                <button class="btn btn-link" wire:click="confirmDelete('{{$user->prenom}} {{$user->nom}}',{{$user->id}})"><i class="far fa-trash-alt btn btn-link"></i></button>
               </td>
             </tr>
             @endforeach
@@ -61,5 +61,37 @@
     </div>
     <!-- /.card -->
   </div>
+  <script>
+      window.addEventListener("confirmDelete",event=>{
+
+        Swal.fire({
+              title: event.detail.message.title,
+              text: event.detail.message.text,
+              icon: event.detail.message.type,
+              showCancelButton: true,
+              confirmButtonColor: '#3085d6',
+              cancelButtonColor: '#d33',
+              confirmButtonText: 'Continuer'
+            }).then((result) => {
+              if (result.isConfirmed) {
+
+                @this.deleteUser(event.detail.message.data.user_id)
+              }
+              
+      })
+      window.addEventListener("userDeletedSucces",event=>{
+
+// console.log(event);
+        Swal.fire({
+        position: 'top-end',
+        icon: 'success',
+        title: event.detail.message,
+        showConfirmButton: false,
+        timer: 3000
+        })
+});
+      
+  });
+  </script>
 
  
