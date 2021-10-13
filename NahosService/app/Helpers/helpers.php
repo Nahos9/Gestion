@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Str;
 
+define("PAGEEDITFORM","edit");
+define("PAGELISTE","liste");
+define("PAGEUSERFORM","userform");
+
 
 function fullName()
 {

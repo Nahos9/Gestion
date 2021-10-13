@@ -44,7 +44,7 @@
               <td class="text-center">{{$user->allRoleNames}}</td>
               <td class="text-center"><span class="tag tag-success">{{$user->created_at->diffForHumans()}}</span></td>
               <td class="text-center">
-                <button class="btn btn-link" ><i class="far fa-edit btn btn-link"></i></button>
+                <button class="btn btn-link" wire:click="goToEdit({{$user->id}})" ><i class="far fa-edit btn btn-link"></i></button>
                 <button class="btn btn-link" wire:click="confirmDelete('{{$user->prenom}} {{$user->nom}}',{{$user->id}})"><i class="far fa-trash-alt btn btn-link"></i></button>
               </td>
             </tr>

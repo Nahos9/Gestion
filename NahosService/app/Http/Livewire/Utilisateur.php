@@ -13,8 +13,12 @@ class Utilisateur extends Component
     public $btnAddClick = false;
     protected $paginationTheme = 'bootstrap';
 
+    public $currentPage = LISTE;
+
     // // public $userAdd = [];
     public $newUser = [];
+
+    public $editUser = [];
 
     protected $rules = [
         'newUser.nom' => 'required',
@@ -55,7 +59,7 @@ class Utilisateur extends Component
         $this->newUser = [];
     $this->dispatchBrowserEvent("userCreatedSucces",["message"=>"Utilisateur crée avec succès!!"]);
 
-    return redirect()->route('admin.habillitation.user.index');
+    // return redirect()->route('admin.habillitation.user.index');
    
     }
 
@@ -76,5 +80,12 @@ class Utilisateur extends Component
     {
         User::destroy($id);
         $this->dispatchBrowserEvent("userDeletedSucces",["message"=>"Utilisateur supprimer avec succès!!"]);
+    }
+
+    //formulaire d'édition de l'utilisateur
+
+    public function goToEdit($id)
+    {
+        $this->editUser[$id];
     }
 }

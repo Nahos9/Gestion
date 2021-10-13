@@ -1,7 +1,12 @@
 <div>
-  @if($btnAddClick)
-  @include("livewire.utilisateurs.formajout")
-  @else
-    @include("livewire.utilisateurs.tableauUtilisateurs")
-      @endif
+  @if($currentPage == PAGEEDITFORM)
+  @include("livewire.utilisateurs.editForm")
+  @endif
+  @if ($currentPage == PAGEUSERFORM)
+    @include("livewire.utilisateurs.formajout")      
+  @endif
+  @if ($currentPage == PAGELISTE)
+  @include("livewire.utilisateurs.tableauUtilisateurs")
+  @endif
+  
 </div>
