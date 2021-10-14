@@ -61,37 +61,6 @@
     </div>
     <!-- /.card -->
   </div>
-  <script>
-      window.addEventListener("confirmDelete",event=>{
-
-        Swal.fire({
-              title: event.detail.message.title,
-              text: event.detail.message.text,
-              icon: event.detail.message.type,
-              showCancelButton: true,
-              confirmButtonColor: '#3085d6',
-              cancelButtonColor: '#d33',
-              confirmButtonText: 'Continuer'
-            }).then((result) => {
-              if (result.isConfirmed) {
-
-                @this.deleteUser(event.detail.message.data.user_id)
-              }
-              
-      })
-      window.addEventListener("userDeletedSucces",event=>{
-
-// console.log(event);
-        Swal.fire({
-        position: 'top-end',
-        icon: 'success',
-        title: event.detail.message,
-        showConfirmButton: false,
-        timer: 3000
-        })
-});
-      
-  });
-  </script>
+  
 
  

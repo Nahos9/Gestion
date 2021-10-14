@@ -51,7 +51,7 @@ class Utilisateur extends Component
 
         $this->newUser = [];
 
-    $this->dispatchBrowserEvent("userCreatedSucces",["message"=>"Utilisateur crée avec succès!!"]);
+    $this->dispatchBrowserEvent("showSuccesMessage",["message"=>"Utilisateur crée avec succès!!"]);
 
     // return redirect()->route('admin.habillitation.user.index');
    
@@ -60,7 +60,7 @@ class Utilisateur extends Component
     // Supprission d'un utilisateur 
     public function confirmDelete($name,$id)
     {
-        $this->dispatchBrowserEvent("confirmDelete",["message"=>[
+        $this->dispatchBrowserEvent("showConfirmMessage",["message"=>[
             "title"=>"Continuer cette action?",
             "text"=>"Vous levez-vous supprimer $name de la liste des utilisateurs?",
             "type"=>"warning",
@@ -74,7 +74,7 @@ class Utilisateur extends Component
     public function deleteUser($id)
     {
         User::destroy($id);
-        $this->dispatchBrowserEvent("userDeletedSucces",["message"=>"Utilisateur supprimer avec succès!!"]);
+        $this->dispatchBrowserEvent("showSuccesMessage",["message"=>"Utilisateur supprimer avec succès!!"]);
     }
 
     //formulaire d'édition de l'utilisateur
@@ -121,7 +121,7 @@ class Utilisateur extends Component
         User::find($this->editUser["id"])->update($validateAttribute["editUser"]);
     //    $this->editUser = [];
 
-       $this->dispatchBrowserEvent("editSuccesMessage",["message"=>"Utilisateur modifié avec succès!!"]);
+       $this->dispatchBrowserEvent("showSuccesMessage",["message"=>"Utilisateur modifié avec succès!!"]);
         
     }
 }

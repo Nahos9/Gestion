@@ -87,16 +87,3 @@
   <div class="col-3"></div>
     
 </div>
-<script>
-  window.addEventListener("userCreatedSucces",event=>{
-
-      // console.log(event);
-      Swal.fire({
-      position: 'top-end',
-      icon: 'success',
-      title: event.detail.message,
-      showConfirmButton: false,
-      timer: 3000
-    })
-  });
-</script>
