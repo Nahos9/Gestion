@@ -21,15 +21,6 @@ class Utilisateur extends Component
 
     public $editUser = [];
 
-    protected $rules = [
-        'newUser.nom' => 'required',
-        'newUser.prenom' => 'required',
-        'newUser.sexe' => 'required',
-        'newUser.email' => 'required|unique:users,email',
-        'newUser.telephone1'=>'required|numeric|unique:users,telephone1',
-        'newUser.pieceIdentite'=>'required',
-        'newUser.noPieceIdentite'=>'required|unique:users,noPieceIdentite'
-    ];
 
     public function render()
     {
@@ -57,7 +48,9 @@ class Utilisateur extends Component
     $validateAttribute["newUser"]["password"] = "password";
 
     User::create($validateAttribute["newUser"]);
+
         $this->newUser = [];
+
     $this->dispatchBrowserEvent("userCreatedSucces",["message"=>"Utilisateur crée avec succès!!"]);
 
     // return redirect()->route('admin.habillitation.user.index');
@@ -90,6 +83,7 @@ class Utilisateur extends Component
     {
         $this->editUser = User::find($id)->toArray();
         return $this->currentPage = PAGEEDITFORM;
+        $this->editUser = [];
     }
 
     //fonction roles de validation
@@ -103,7 +97,7 @@ class Utilisateur extends Component
                 'editUser.prenom' => 'required',
                 'editUser.sexe' => 'required',
                 'editUser.email' => ['required','email', Rule::unique("users","email")->ignore($this->editUser["id"])],
-                'editUser.telephone1'=>['required','numeric', Rule::unique("users","noPieceIdentite")->ignore($this->editUser["id"])],
+                'editUser.telephone1'=>['required','numeric', Rule::unique("users","telephone1")->ignore($this->editUser["id"])],
                 'editUser.pieceIdentite'=>'required',
                 'editUser.noPieceIdentite'=>['required', Rule::unique("users","noPieceIdentite")->ignore($this->editUser["id"])]
             ];
@@ -124,9 +118,8 @@ class Utilisateur extends Component
     public function updateUser()
     {
        $validateAttribute =  $this->validate();
-        // dump($validateAttribute);
-        
-       User::find($this->editUser["id"])->update($validateAttribute);
+        User::find($this->editUser["id"])->update($validateAttribute["editUser"]);
+    //    $this->editUser = [];
 
        $this->dispatchBrowserEvent("editSuccesMessage",["message"=>"Utilisateur modifié avec succès!!"]);
         

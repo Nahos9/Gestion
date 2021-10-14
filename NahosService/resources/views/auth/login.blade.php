@@ -9,7 +9,7 @@
   </div>
   <!-- /.login-logo -->
   <div class="card bg-dark">
-    <div class="card-body bg-dark login-card-body">
+    <div class="card-body bg-green login-card-body">
 
       <form method="POST" action="{{ route('login') }}">
         @csrf

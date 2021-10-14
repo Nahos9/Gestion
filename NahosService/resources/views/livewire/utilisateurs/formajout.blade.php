@@ -96,7 +96,7 @@
       icon: 'success',
       title: event.detail.message,
       showConfirmButton: false,
-      timer: 4000
+      timer: 3000
     })
   });
 </script>

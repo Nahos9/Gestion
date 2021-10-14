@@ -87,13 +87,12 @@
   <script>
     window.addEventListener("editSuccesMessage",event=>{
   
-        // console.log(event);
         Swal.fire({
         position: 'top-end',
         icon: 'success',
         title: event.detail.message,
         showConfirmButton: false,
-        timer: 4000
+        timer: 3000
       })
     });
   </script>

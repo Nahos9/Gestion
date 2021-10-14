@@ -14,7 +14,7 @@
   <!-- Google Font: Source Sans Pro -->
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700" rel="stylesheet">
 </head>
-<body class="hold-transition login-page bg-dark" style="transform: translateY(-80px);">
+<body class="hold-transition login-page bg-black" style="transform: translateY(-80px);">
 @yield("container")
 <!-- /.login-box -->
 

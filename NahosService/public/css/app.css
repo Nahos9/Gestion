@@ -4632,3 +4632,7 @@ readers do not read off random characters that represent icons */
     white-space: nowrap;
     overflow: hidden;
 }
+
+body{
+    background-image: url("/public/img/bg2.jpg");
+}
