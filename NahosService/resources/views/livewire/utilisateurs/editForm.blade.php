@@ -85,6 +85,9 @@
           <div class="col-12">
             <div class="card-header bg-primary">
               <h5><i class="fas fa-key"></i> Rénitialiser le password</h5>
+              <div class="card-body bg-white">
+                <a href="">Rénitialiser votre mot de passe.</a>
+              </div>
             </div>
           </div>
           <div class="col-12">
