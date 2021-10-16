@@ -6,6 +6,8 @@ define("PAGEEDITFORM","edit");
 define("PAGELISTE","liste");
 define("PAGEUSERFORM","userform");
 
+define("DEFAULTPASSOWRD", "password");
+
 
 function fullName()
 {
