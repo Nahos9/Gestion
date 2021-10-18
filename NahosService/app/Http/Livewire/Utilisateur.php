@@ -2,8 +2,10 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Validation\Rule;
@@ -85,8 +87,8 @@ class Utilisateur extends Component
     public function goToEdit($id)
     {
         $this->editUser = User::find($id)->toArray();
-        return $this->currentPage = PAGEEDITFORM;
         $this->populateRolePermissions();
+        return $this->currentPage = PAGEEDITFORM;
         
     }
     // Tous les roles et permissions de l'utilisateur
@@ -102,16 +104,51 @@ class Utilisateur extends Component
         };
         //cette instruction nous permets de savoir si un role appartient à un utilisateur
         $roles = array_map($mapForCB, User::find($this->editUser['id'])->roles->toArray());
+        $permissions = array_map($mapForCB, User::find($this->editUser['id'])->perimissions->toArray());
      
+        foreach(Permission::all() as $permission)
+        {
+            if(in_array($permission->id,$permissions)){
+
+                array_push($this->rolesPermissions['permissions'],["permission_id"=>$permission->id,"permission_nom"=>$permission->nom,"active"=>true]);
+            }
+            array_push($this->rolesPermissions['permissions'],["permission_id"=>$permission->id,"permission_nom"=>$permission->nom,"active"=>false]);
+        }
+
         foreach(Role::all() as $role)
         {
             if(in_array($role->id,$roles)){
-                array_push($this->rolesPermissions["roles"],["role_id"=>$role->id,"role_nomRole"=>$role->nomRole,"active"=>true]);
+                array_push($this->rolesPermissions['roles'],["role_id"=>$role->id,"role_nomRole"=>$role->nomRole,"active"=>true]);
             }
-            array_push($this->rolesPermissions["roles"],["role_id"=>$role->id,"role_nomRole"=>$role->nomRole,"active"=>false]);
+            array_push($this->rolesPermissions['roles'],["role_id"=>$role->id,"role_nomRole"=>$role->nomRole,"active"=>false]);
         }
 
-            dump($this->rolesPermissions);
+            
+    }
+
+    //fonction permetant de modifier les roles et permissions
+
+    public function updateRoleAndPermissions()
+    {
+       
+        DB::table('user_role')->where("user_id",$this->editUser["id"])->delete();
+        DB::table('user_permission')->where("user_id",$this->editUser["id"])->delete();
+        
+        foreach($this->rolesPermissions["roles"] as $role){
+            if($role["active"])
+            {
+                User::find($this->editUser["id"])->roles()->attach($role["role_id"]);
+            }
+        }
+
+        foreach($this->rolesPermissions["permissions"] as $permission){
+            if($permission["active"])
+            {
+                User::find($this->editUser["id"])->perimissions()->attach($permission["permission_id"]);
+            }
+        }
+
+        $this->dispatchBrowserEvent("showMessageSucces",["message"=>"Modifiactions pris en compte avec succès!!"]);
     }
 
     //fonction roles de validation

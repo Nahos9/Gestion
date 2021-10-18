@@ -131,30 +131,33 @@
                                         <div class="card-header d-flex justify-content-between">
                                             <h4 class="card-title flex-grow-1">
                                             <a  data-parent="#accordion" href="#"  aria-expanded="true">
-                                                {{$role["role_nom"]}}
+                                                {{$role["role_nomRole"]}}
                                             </a>
                                             </h4>
                                             <div class="custom-control custom-switch custom-switch-off-danger custom-switch-on-success">
 
-                                                <input type="checkbox" class="custom-control-input" wire:model.lazy="rolePermissions.roles.{{$loop->index}}.active"
-                                                    @if($role["active"]) checked @endif
+                                                <input type="checkbox" class="custom-control-input " wire:model.lazy="rolesPermissions.roles.{{$loop->index}}.active"
+                                                     @if ($role["active"])
+                                                         checked
+                                                     @endif
                                                     id="customSwitch{{$role['role_id']}}">
                                                 <label class="custom-control-label" for="customSwitch{{$role['role_id']}}"> {{ $role["active"]? "Activé" : "Desactivé" }}</label>
                                             </div>
                                         </div>
                                     </div>
                                     @endforeach
+                                    
                             </div>
                     </div>
 
-                    {{-- <div class="p-3">
+                    <div class="p-3">
                         <table class="table table-bordered">
                             <thead>
                                 <th>Permissions</th>
                                 <th></th>
                             </thead>
                             <tbody>
-                                @foreach($rolePermissions["permissions"] as $permission)
+                                @foreach($rolesPermissions["permissions"] as $permission)
                                 <tr>
                                     <td>{{ $permission["permission_nom"] }}</td>
                                     <td>
@@ -162,7 +165,7 @@
 
                                                 <input type="checkbox" class="custom-control-input"
                                                     @if($permission["active"]) checked @endif
-                                                    wire:model.lazy="rolePermissions.permissions.{{$loop->index}}.active"
+                                                    wire:model.lazy="rolesPermissions.permissions.{{$loop->index}}.active"
                                                     id="customSwitchPermission{{$permission['permission_id']}}">
                                                 <label class="custom-control-label" for="customSwitchPermission{{$permission['permission_id']}}"> {{ $permission["active"]? "Activé" : "Desactivé" }}</label>
                                             </div>
@@ -172,7 +175,7 @@
                             </tbody>
 
                         </table>
-                    </div> --}}
+                    </div>
                 </div>
             </div>
         </div>
