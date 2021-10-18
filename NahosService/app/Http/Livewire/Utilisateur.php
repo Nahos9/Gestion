@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\Role;
 use App\Models\User;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -12,7 +13,6 @@ class Utilisateur extends Component
 {
     use WithPagination;
 
-    public $btnAddClick = false;
     protected $paginationTheme = 'bootstrap';
 
     public $currentPage = PAGELISTE;
@@ -21,6 +21,8 @@ class Utilisateur extends Component
     public $newUser = [];
 
     public $editUser = [];
+
+    public $rolesPermissions = [];
 
 
     public function render()
@@ -46,7 +48,7 @@ class Utilisateur extends Component
     {  
     $validateAttribute = $this->validate();
 
-    $validateAttribute["newUser"]["password"] = "password";
+    $validateAttribute["newUser"]["password"] = Hash::make("password") ;
 
     User::create($validateAttribute["newUser"]);
 
@@ -84,7 +86,32 @@ class Utilisateur extends Component
     {
         $this->editUser = User::find($id)->toArray();
         return $this->currentPage = PAGEEDITFORM;
-        $this->editUser = [];
+        $this->populateRolePermissions();
+        
+    }
+    // Tous les roles et permissions de l'utilisateur
+
+    public function populateRolePermissions()
+    {
+        $this->rolesPermissions['roles'] = [];
+        $this->rolesPermissions['permissions'] = [];
+
+        $mapForCB = function($value)
+        {
+            return $value["id"];
+        };
+        //cette instruction nous permets de savoir si un role appartient à un utilisateur
+        $roles = array_map($mapForCB, User::find($this->editUser['id'])->roles->toArray());
+     
+        foreach(Role::all() as $role)
+        {
+            if(in_array($role->id,$roles)){
+                array_push($this->rolesPermissions["roles"],["role_id"=>$role->id,"role_nomRole"=>$role->nomRole,"active"=>true]);
+            }
+            array_push($this->rolesPermissions["roles"],["role_id"=>$role->id,"role_nomRole"=>$role->nomRole,"active"=>false]);
+        }
+
+            dump($this->rolesPermissions);
     }
 
     //fonction roles de validation
@@ -134,16 +161,13 @@ class Utilisateur extends Component
             "title"=>"Continuer cette action?",
             "text"=>"Vous levez-vous rénitialiser le mot de passe?",
             "type"=>"warning",
-            // "data"=>[
-            //     "user_id" => $id
-            // ]
         ]]);
     }
 
-    public function resetPassword()
-    {
+    public function resetPassword(){
         
         User::find($this->editUser["id"])->update(["password" => Hash::make(DEFAULTPASSOWRD)]);
         $this->dispatchBrowserEvent("showSuccessMessage", ["message"=>"Mot de passe utilisateur réinitialisé avec succès!"]);
     }
+   
 }

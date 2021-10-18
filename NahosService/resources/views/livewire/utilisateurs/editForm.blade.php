@@ -124,9 +124,9 @@
                     <button class="btn bg-gradient-success" wire:click="updateRoleAndPermissions"><i class="fas fa-check"></i> Appliquer les modifications</button>
                     </div>
                     <!-- /.card-header -->
-                    {{-- <div class="card-body">
+                    <div class="card-body">
                             <div id="accordion">
-                                    @foreach($rolePermissions["roles"] as $role)
+                                    @foreach($rolesPermissions["roles"] as $role)
                                     <div class="card">
                                         <div class="card-header d-flex justify-content-between">
                                             <h4 class="card-title flex-grow-1">
@@ -145,7 +145,7 @@
                                     </div>
                                     @endforeach
                             </div>
-                    </div> --}}
+                    </div>
 
                     {{-- <div class="p-3">
                         <table class="table table-bordered">
