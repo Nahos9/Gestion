@@ -19,13 +19,13 @@
               toast:true,
               title: event.detail.message || "Opération effectuée avec succès!",
               showConfirmButton: false,
-              timer: 5000
+              timer: 4000
               }
           )
   })
 </script>
 
-<script>
+{{-- <script>
   window.addEventListener("showConfirmMessage", event=>{
      Swal.fire({
       title: event.detail.message.title,
@@ -45,4 +45,4 @@
       }
       })
   })
-</script>
+</script> --}}

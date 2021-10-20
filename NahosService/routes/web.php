@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\UserController;
+use App\Http\Livewire\TypeArticleComp;
 use App\Http\Livewire\Utilisateur;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -36,4 +37,17 @@ Route::group([
         Route::get("/user",Utilisateur::class)->name("user.index");
     });
     });
+
+Route::group([
+        "middleware"=> ["auth","auth.admin"],
+        "as"=> "admin."
+    ],function(){
+        Route::group([
+            "prefix"=> "TypeArticle",
+            "as" => "TypeArticle."
+        ],function(){
+    
+            Route::get("/typeArticle",TypeArticleComp::class)->name("user.index");
+        });
+        });
 // Route::get('/user',[UserController::class,'index'])->name('user')->middleware("auth.admin");

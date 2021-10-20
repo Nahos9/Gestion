@@ -5,6 +5,7 @@ namespace App\Http\Livewire;
 use App\Models\Permission;
 use App\Models\Role;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -14,7 +15,7 @@ use Illuminate\Support\Facades\Hash;
 class Utilisateur extends Component
 {
     use WithPagination;
-
+    
     protected $paginationTheme = 'bootstrap';
 
     public $currentPage = PAGELISTE;
@@ -29,6 +30,7 @@ class Utilisateur extends Component
 
     public function render()
     {
+        Carbon::setLocale("fr");
         return view('livewire.utilisateurs.index',[
             "users"=>User::latest()->paginate(3)
         ])
