@@ -36,18 +36,15 @@ Route::group([
 
         Route::get("/user",Utilisateur::class)->name("user.index");
     });
+
+    Route::group([
+        "prefix"=> "gestarticles",
+        "as" => "gestarticles."
+    ],function(){
+
+        Route::get("/typeArticle",TypeArticleComp::class)->name("typearticles");
+    });
     });
 
-Route::group([
-        "middleware"=> ["auth","auth.admin"],
-        "as"=> "admin."
-    ],function(){
-        Route::group([
-            "prefix"=> "TypeArticle",
-            "as" => "TypeArticle."
-        ],function(){
-    
-            Route::get("/typeArticle",TypeArticleComp::class)->name("user.index");
-        });
-        });
+
 // Route::get('/user',[UserController::class,'index'])->name('user')->middleware("auth.admin");

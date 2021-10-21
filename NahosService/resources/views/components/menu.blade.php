@@ -39,7 +39,7 @@
     
 
     @can("admin")
-    <li class="nav-item {{setMenuClasse('admin.habillitation','menu-open')}} ">
+    <li class="nav-item {{setMenuClasse('admin.habillitation.','menu-open')}} ">
         <a href="#" class="nav-link {{setMenuClasse('admin.habillitation.', 'active')}} ">
           <i class=" nav-icon fas fa-user-shield"></i>
           <p>
@@ -57,18 +57,12 @@
               <p>Utilisateurs</p>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-fingerprint"></i>
-              <p>Roles et permissions</p>
-            </a>
-          </li>
         </ul>
     </li>
  
 
-     <li class="nav-item ">
-        <a href="#" class="nav-link">
+     <li class="nav-item {{setMenuClasse('admin.gestarticles','menu-open')}} ">
+        <a href="" class="nav-link {{setMenuClasse('admin.gestarticles', 'active')}} ">
             <i class="nav-icon fas fa-cogs"></i>
             <p>
             Gestion articles
@@ -77,8 +71,8 @@
         </a>
         <ul class="nav nav-treeview">
             <li class="nav-item">
-                <a href=""
-                    class="nav-link">
+                <a href="{{route('admin.gestarticles.typearticles')}}"
+                    class="nav-link {{setMenuClasse('admin.gestarticles', 'active')}}">
                 <i class="nav-icon far fa-circle"></i>
                 <p>Type d'articles</p>
                 </a>
