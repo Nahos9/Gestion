@@ -13,10 +13,13 @@ class TypeArticleComp extends Component
     
     protected $paginationTheme = 'bootstrap';
 
+    public $search = "";
+
     public function render()
     {
-       
-        $data = ["typearticles"=>TypeArticle::latest()->paginate(5)];
+       $serachCritere = "%". $this->search ."%";
+
+        $data = ["typearticles"=>TypeArticle::where("nom","like",$serachCritere)->latest()->paginate(5)];
         return view('livewire.typearticles.index',$data)
                 ->extends('layouts.master')
                 ->section('contenu');

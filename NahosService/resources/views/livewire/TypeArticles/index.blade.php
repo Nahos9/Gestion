@@ -1,10 +1,10 @@
 <div>
 
     @include("livewire.typearticles.list")
-    
-    @include("livewire.typearticles.editProp")
 
-    @include("livewire.typearticles.addProp")
+    {{-- @include("livewire.typearticles.editProp")
+
+    @include("livewire.typearticles.addProp") --}}
 
 
 
