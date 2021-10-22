@@ -27,27 +27,29 @@ class Utilisateur extends Component
 
     public $rolesPermissions = [];
 
+    public $search = "";
 
     public function render()
     {
+        $searchCriteria = "%".$this->search."%";
         Carbon::setLocale("fr");
         return view('livewire.utilisateurs.index',[
-            "users"=>User::latest()->paginate(3)
+            "users"=>User::where("nom","like",$searchCriteria)->latest()->paginate(3)
         ])
                 ->extends('layouts.master')
                 ->section('contenu');
     }
-
+// formulaire d'ajout d'un utlisateur
     public function goToAddUser()
     {
         return $this->currentPage = PAGEUSERFORM;
     }
-
+// liste des utlisateurs
     public function goToUser()
     {
         return $this->currentPage = PAGELISTE;
     }
-
+//ajouter un utilisateur
     public function addUser()
     {  
     $validateAttribute = $this->validate();
@@ -93,6 +95,10 @@ class Utilisateur extends Component
         return $this->currentPage = PAGEEDITFORM;
         
     }
+
+    //fonction de recherche d'un utilisateur
+
+    
     // Tous les roles et permissions de l'utilisateur
 
     public function populateRolePermissions()

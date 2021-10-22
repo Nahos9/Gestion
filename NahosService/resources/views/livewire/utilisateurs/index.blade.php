@@ -25,7 +25,7 @@
   })
 </script>
 
-{{-- <script>
+<script>
   window.addEventListener("showConfirmMessage", event=>{
      Swal.fire({
       title: event.detail.message.title,
@@ -45,4 +45,4 @@
       }
       })
   })
-</script> --}}
+</script>

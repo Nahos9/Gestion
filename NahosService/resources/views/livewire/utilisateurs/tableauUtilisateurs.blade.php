@@ -6,7 +6,7 @@
         <div class="card-tools d-flex align-items-center">
             <a href="" class="btn btn-link text-white mr-4 d-block" wire:click.prevent="goToAddUser"><i class="fas fa-user-plus"></i>Nouvel utilisateur</a>
           <div class="input-group input-group-md " style="width: 250px;">
-            <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+            <input type="text" name="table_search" class="form-control float-right" placeholder="Search" wire:model.debounce='search'>
 
             <div class="input-group-append">
               <button type="submit" class="btn btn-default">
