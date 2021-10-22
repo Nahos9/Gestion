@@ -1,3 +1,61 @@
+<div class="modal fade" id="modalProp" style="z-index: 1900;" role="dialog" wire:ignore.self>
+  <div class="modal-dialog modal-xl" style="top:100px;">
+    <div class="modal-content">
+      <div class="modal-header bg-info">
+        <h5 class="modal-title" id="exampleModalLabel">Edition des propriétés "{{optional($nameEdit)->nom}}"</h5>
+      </div>
+      <div class="modal-body">
+            <div class="d-flex my-4 bg-gray-light p-3">
+              <div class="flex-grow-1 mr-2">
+                <input type="text" placeholder="Nom" wire:keypress.enter="updateProp()" wire:model="editPropModel.nom" class="form-control @error("editPropModel.nom") is-invalid @enderror">
+                @error("editPropModel.nom")
+                    <span class="text-danger">{{$message}}</span>
+                @enderror
+            </div>
+            <div class="flex-grow-1">
+              <select class="form-control @error("editPropModel.estObligatoire") is-invalid @enderror" wire:model="editPropModel.estObligatoire">
+                  <option value="">--Champ Obligatoire--</option>
+                  <option value="1">OUI</option>
+                  <option value="0">NON</option>
+              </select>
+              @error("editPropModel.estObligatoire")
+                  <span class="text-danger">{{$message}}</span>
+              @enderror
+          </div>
+          <div class="ml-2">
+            <button class="btn btn-success" wire:click="updateProp()">Valider</button>
+            </div>
+        </div>
+
+      <div>
+        <table class="table table-borded">
+          <thead class="bg-info">
+              <tr>
+                <th>Nom</th>
+                <th>Est obligatoire</th>
+                <th>Action</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr>
+                <td>Kilometrage</td>
+                <td>Oui</td>
+                <td class="text-center">
+                  <button class="btn btn-link" ><i class="fas fa-check"></i>Valider</button>
+                  <button class="btn btn-link" ><i class="far fa-window-close btn btn-link"></i>Annuler</button>
+                </td>
+              </tr>
+          </tbody>
+        </table>
+      </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Fermer</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <div>
     <div class="col-12 ">
         <div class="card p-4 mt-4 ">
@@ -51,8 +109,9 @@
                             <td >{{$typearticle->nom}}</td>
                             <td class="text-center">{{optional($typearticle->created_at)->diffForHumans()}}</td>
                             <td class="text-center">
-                              <button class="btn btn-link" wire:click='editTypeArticle({{$typearticle->id}})'><i class="far fa-edit btn btn-link"></i></button>
-                              <button class="btn btn-link" wire:click='deleteConfTypeArticle({{$typearticle->id}})'><i class="far fa-trash-alt btn btn-link"></i></button>
+                              <button class="btn btn-link" wire:click='editTypeArticle({{$typearticle->id}})'> <i class="far fa-edit btn btn-link"> Editer</i></button>
+                              <button class="btn btn-link" wire:click='showEditProp({{$typearticle->id}})'><i class="fa fa-list"> Propriétés</i></button>
+                              <button class="btn btn-link" wire:click='deleteConfTypeArticle({{$typearticle->id}})'> <i class="far fa-trash-alt btn btn-link"> Supprimer</i></button>
                             </td>
                         </tr>
                 @endforeach
@@ -123,5 +182,14 @@
         
       }
       })
+  })
+</script>
+<script>
+  window.addEventListener("showModal",function(e){
+
+    $("#modalProp").modal({
+      "show": true,
+      "backdrop":"static"
+    })
   })
 </script>

@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire;
 
+use App\Models\ProprieteArticle;
 use App\Models\TypeArticle;
 use Carbon\Carbon;
 use Illuminate\Validation\Rule;
@@ -21,6 +22,8 @@ class TypeArticleComp extends Component
     public $isAddType = false;
 
     public $newTypeArticleName = "";
+
+    public $nameEdit;
 
     public function render()
     {
@@ -78,7 +81,7 @@ class TypeArticleComp extends Component
             "newValueEdit"=>["required","max:25",Rule::unique("type_articles","nom")->ignore($typearticle)]
         ]);
 
-        TypeArticle::find($typearticle->id)->update(["nom"=>$validated["newValueEdit"]]);
+        $typearticle->update(["nom"=>$validated["newValueEdit"]]);
 
         $this->dispatchBrowserEvent("showSuccessMessage",["message","Modification réussis avec succès"]);
     }
@@ -104,5 +107,12 @@ class TypeArticleComp extends Component
        $typearticle->delete();
 
        $this->dispatchBrowserEvent("showSuccessMessage",["message","Suppression réussis avec succès"]);
+    }
+
+    //affichage de la fênetre modale
+    public function showEditProp(TypeArticle $typearticle)
+    {
+        $this->nameEdit = $typearticle;
+        $this->dispatchBrowserEvent("showModal",[]);
     }
 }
