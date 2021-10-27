@@ -10,6 +10,8 @@ class ProprieteArticle extends Model
 {
     use HasFactory;
 
+    protected $fillable = ["nomPropriete","estObligatoire","type_article_id"];
+
     public function typeArticle()
     {
         return $this->belongsTo(TypeArticle::class);

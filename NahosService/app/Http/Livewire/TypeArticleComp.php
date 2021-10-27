@@ -25,12 +25,16 @@ class TypeArticleComp extends Component
 
     public $nameEdit;
 
+    public $newPropModel = [];
+
     public function render()
     {
         Carbon::setLocale("fr");
        $serachCritere = "%". $this->search ."%";
 
-        $data = ["typearticles"=>TypeArticle::where("nom","like",$serachCritere)->latest()->paginate(5)];
+        $data = [
+            "typearticles"=>TypeArticle::where("nom","like",$serachCritere)->latest()->paginate(5),
+            "proprietesarticles"=>ProprieteArticle::where("type_article_id",optional($this->nameEdit)->id)->get() ];
         return view('livewire.typearticles.index',$data)
                 ->extends('layouts.master')
                 ->section('contenu');
@@ -114,5 +118,27 @@ class TypeArticleComp extends Component
     {
         $this->nameEdit = $typearticle;
         $this->dispatchBrowserEvent("showModal",[]);
+    }
+
+    public function addProp()
+    {
+      
+      $validateAttribute = $this->validate([
+          "newPropModel.nomPropriete"=>[
+              "required",
+              Rule::unique("propriete_articles","nomPropriete")->where("type_article_id",$this->nameEdit->id)
+          ],
+          "newPropModel.estObligatoire"=>"required"
+          ]);
+          
+          ProprieteArticle::create([
+              "nomPropriete"=>$this->newPropModel["nomPropriete"],
+              "estObligatoire"=>$this->newPropModel["estObligatoire"],
+              "type_article_id"=>$this->nameEdit->id
+          ]);
+
+          $this->newPropModel = [];
+          $this->resetErrorBag();
+          $this->dispatchBrowserEvent("showSuccessMessage",["message"=>"Proprité ajoutée avec succès!!"]);
     }
 }

@@ -7,23 +7,25 @@
       <div class="modal-body">
             <div class="d-flex my-4 bg-gray-light p-3">
               <div class="flex-grow-1 mr-2">
-                <input type="text" placeholder="Nom" wire:keypress.enter="updateProp()" wire:model="editPropModel.nom" class="form-control @error("editPropModel.nom") is-invalid @enderror">
-                @error("editPropModel.nom")
+                <input type="text" placeholder="Nom de la propriété "  wire:model="newPropModel.nomPropriete" class="form-control @error("newPropModel.nomPropriete") is-invalid @enderror">
+                @error("newPropModel.nomPropriete")
                     <span class="text-danger">{{$message}}</span>
                 @enderror
             </div>
             <div class="flex-grow-1">
-              <select class="form-control @error("editPropModel.estObligatoire") is-invalid @enderror" wire:model="editPropModel.estObligatoire">
-                  <option value="">--Champ Obligatoire--</option>
-                  <option value="1">OUI</option>
-                  <option value="0">NON</option>
+              <select class="form-control @error("newPropModel.estObligatoire") is-invalid @enderror" wire:model="newPropModel.estObligatoire">
+                <option value="">--Champ Obligatoire--</option>
+              
+                <option value="1">OUI</option>
+                <option value="0">NON</option>
+             
               </select>
-              @error("editPropModel.estObligatoire")
+              @error("newPropModel.estObligatoire")
                   <span class="text-danger">{{$message}}</span>
               @enderror
           </div>
           <div class="ml-2">
-            <button class="btn btn-success" wire:click="updateProp()">Valider</button>
+            <button class="btn btn-success" wire:click="addProp()">Valider</button>
             </div>
         </div>
 
@@ -33,18 +35,27 @@
               <tr>
                 <th>Nom</th>
                 <th>Est obligatoire</th>
-                <th>Action</th>
+                <th class="text-center">Action</th>
               </tr>
           </thead>
           <tbody>
-              <tr>
-                <td>Kilometrage</td>
-                <td>Oui</td>
-                <td class="text-center">
-                  <button class="btn btn-link" ><i class="fas fa-check"></i>Valider</button>
-                  <button class="btn btn-link" ><i class="far fa-window-close btn btn-link"></i>Annuler</button>
-                </td>
-              </tr>
+         @forelse ($proprietesarticles as $proprietearticle)
+         <tr>
+          <td>{{$proprietearticle->nomPropriete}}</td>
+          <td>{{$proprietearticle->estObligatoire == 0? "NON":"OUI"}}</td>
+          <td class="text-center">
+            <button class="btn btn-link" ><i class="fas fa-check"></i>Valider</button>
+            <button class="btn btn-link" ><i class="far fa-window-close btn btn-link"></i>Annuler</button>
+          </td>
+        </tr>
+         @empty
+             <tr>
+               <td colspan="3">
+                 <span class="text-danger">Vous n'avez pas encore des propriétés pour ce  type d'article</span>
+               </td>
+             </tr>
+         @endforelse
+             
           </tbody>
         </table>
       </div>
