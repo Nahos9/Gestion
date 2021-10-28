@@ -27,6 +27,8 @@ class TypeArticleComp extends Component
 
     public $newPropModel = [];
 
+    public $editPropModel = [];
+
     public function render()
     {
         Carbon::setLocale("fr");
@@ -172,5 +174,16 @@ class TypeArticleComp extends Component
         $this->editPropModel = [];
         $this->resetErrorBag();
         $this->dispatchBrowserEvent("closeModal", []);
+    }
+
+    //modal d'édition d'une propriété d'article
+    public function showModalEditPror()
+    {
+        $this->dispatchBrowserEvent("showEditModal",[]);
+    }
+
+    public function closeEditModal()
+    {
+        $this->dispatchBrowserEvent("closeEditModal", []);
     }
 }

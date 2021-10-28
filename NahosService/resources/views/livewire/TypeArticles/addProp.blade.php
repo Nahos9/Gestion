@@ -41,7 +41,7 @@
                                 <td>{{ $proprietearticle->nomPropriete }}</td>
                                 <td>{{ $proprietearticle->estObligatoire == 0 ? "NON": "OUI" }}</td>
                                 <td>
-                                    <button class="btn btn-link"> <i class="far fa-edit"></i> </button>
+                                    <button class="btn btn-link" wire:click="showModalEditPror()"> <i class="far fa-edit"></i> </button>
 
                                     @if (count($proprietearticle->articles)==0)
                                    

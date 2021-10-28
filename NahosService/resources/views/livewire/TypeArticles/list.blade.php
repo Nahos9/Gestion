@@ -53,7 +53,11 @@
                             <td class="text-center">
                               <button class="btn btn-link" wire:click='editTypeArticle({{$typearticle->id}})'> <i class="far fa-edit btn btn-link"> Editer</i></button>
                               <button class="btn btn-link" wire:click='showEditProp({{$typearticle->id}})'><i class="fa fa-list"> Propriétés</i></button>
+                              @if (count($typearticle->articles)==0)
+                              
                               <button class="btn btn-link" wire:click='deleteConfTypeArticle({{$typearticle->id}})'> <i class="far fa-trash-alt btn btn-link"> Supprimer</i></button>
+                                  
+                              @endif
                             </td>
                         </tr>
                 @endforeach
