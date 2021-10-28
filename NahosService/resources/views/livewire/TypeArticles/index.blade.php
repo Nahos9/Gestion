@@ -2,9 +2,9 @@
 
     @include("livewire.typearticles.list")
 
-    {{-- @include("livewire.typearticles.editProp")
+     {{-- @include("livewire.typearticles.editProp") --}}
 
-    @include("livewire.typearticles.addProp") --}}
+    @include("livewire.typearticles.addProp") 
 
 
 
@@ -62,7 +62,7 @@
                 @this.deleteTypeArticle(event.detail.message.data.type_article_id)
             }
             if(event.detail.message.data.propriete_id){
-                @this.deleteProp(event.detail.message.data.propriete_id)
+                @this.deteleProprieteArticle(event.detail.message.data.propriete_id)
             }
         }
         })

@@ -119,7 +119,7 @@ class TypeArticleComp extends Component
         $this->nameEdit = $typearticle;
         $this->dispatchBrowserEvent("showModal",[]);
     }
-
+    // ajoute d'une propriété d'article
     public function addProp()
     {
       
@@ -140,5 +140,37 @@ class TypeArticleComp extends Component
           $this->newPropModel = [];
           $this->resetErrorBag();
           $this->dispatchBrowserEvent("showSuccessMessage",["message"=>"Proprité ajoutée avec succès!!"]);
+    }
+
+    //confirmation de suppression d'une propriété
+    public function showDeletePrompt($name, $id)
+    {
+       
+        $this->dispatchBrowserEvent("showConfirmMessage",[
+            "message"=>[
+                "text"=>"Vous êtes sur le point de supprimer '$name' de la liste des propriétés",
+                "title"=>"Suppression d'une propriété",
+                "type"=>"warning",
+                "data"=>[
+                    "propriete_id"=>$id
+                ]
+            ],
+            
+            ]);
+    }
+
+    //supprimer une propriete
+
+    public function deteleProprieteArticle(ProprieteArticle $propriete)
+    {
+        $propriete->delete();
+        $this->dispatchBrowserEvent("showSuccessMessage",["message"=>"Proprité supprimée avec succès!!"]);
+    }
+
+    public function closeModal()
+    {
+        $this->editPropModel = [];
+        $this->resetErrorBag();
+        $this->dispatchBrowserEvent("closeModal", []);
     }
 }
