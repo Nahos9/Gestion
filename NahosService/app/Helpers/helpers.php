@@ -43,12 +43,10 @@ function setMenuClasse($route, $classe)
     return "";
 }
 
-function setMenuActive($route)
-{
-    $routeActuelle = request()->route()->getName();
+function setMenuActive($route){
+    $routeActuel = request()->route()->getName();
 
-    if($routeActuelle === $route)
-    {
+    if($routeActuel === $route ){
         return "active";
     }
     return "";

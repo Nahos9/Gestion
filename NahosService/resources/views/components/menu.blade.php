@@ -39,8 +39,8 @@
     
 
     @can("admin")
-    <li class="nav-item {{setMenuClasse('admin.habillitation.','menu-open')}} ">
-        <a href="#" class="nav-link {{setMenuClasse('admin.habillitation.', 'active')}} ">
+    <li class="nav-item {{setMenuClasse('admin.habillitation','menu-open')}} ">
+        <a href="" class="nav-link {{setMenuClasse('admin.habillitation', 'active')}} ">
           <i class=" nav-icon fas fa-user-shield"></i>
           <p>
             Habilitations
@@ -50,8 +50,8 @@
         <ul class="nav nav-treeview">
           <li class="nav-item ">
             <a
-            href="{{route('admin.habillitation.user.index')}}"
-            class="nav-link" {{ setMenuActive('admin.habillitation.users.index') }}
+            href="{{route('admin.habillitation.index')}}"
+            class="nav-link {{ setMenuActive('admin.habillitation.index') }}" 
             >
               <i class=" nav-icon fas fa-users-cog"></i>
               <p>Utilisateurs</p>
@@ -72,13 +72,13 @@
         <ul class="nav nav-treeview">
             <li class="nav-item">
                 <a href="{{route('admin.gestarticles.typearticles')}}"
-                    class="nav-link {{setMenuClasse('admin.gestarticles', 'active')}}">
+                    class="nav-link {{setMenuActive('admin.gestarticles.typearticles')}}">
                 <i class="nav-icon far fa-circle"></i>
                 <p>Type d'articles</p>
                 </a>
             </li>
             <li class="nav-item">
-                <a href="#" class="nav-link">
+                <a href="{{route('admin.gestarticles.articles')}}" class="nav-link  {{setMenuActive('admin.gestarticles.articles')}}">
                 <i class="nav-icon fas fa-list-ul"></i>
                 <p>Articles</p>
                 </a>

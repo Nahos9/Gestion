@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\UserController;
+use App\Http\Livewire\ArticleComp;
 use App\Http\Livewire\TypeArticleComp;
 use App\Http\Livewire\Utilisateur;
 use Illuminate\Support\Facades\Auth;
@@ -34,7 +35,7 @@ Route::group([
         "as" => "habillitation."
     ],function(){
 
-        Route::get("/user",Utilisateur::class)->name("user.index");
+        Route::get("/user",Utilisateur::class)->name("index");
     });
 
     Route::group([
@@ -43,6 +44,8 @@ Route::group([
     ],function(){
 
         Route::get("/typeArticle",TypeArticleComp::class)->name("typearticles");
+
+        Route::get("/articles",ArticleComp::class)->name("articles");
     });
     });
 
