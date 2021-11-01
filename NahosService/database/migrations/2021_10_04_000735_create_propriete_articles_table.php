@@ -19,6 +19,8 @@ class CreateProprieteArticlesTable extends Migration
             $table->string('estObligatoire');
             $table->foreignId('type_article_id')->constrained();
             $table->timestamps();
+
+            $table->unique("nomPropriete","type_article_id");
         });
 
         Schema::enableForeignKeyConstraints();

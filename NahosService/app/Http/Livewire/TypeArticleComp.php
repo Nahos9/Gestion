@@ -177,13 +177,41 @@ class TypeArticleComp extends Component
     }
 
     //modal d'édition d'une propriété d'article
-    public function showModalEditPror()
+    public function showModalEditPror(ProprieteArticle $proprietearticle)
     {
+        $this->editPropModel["nomPropriete"] = $proprietearticle->nomPropriete;
+        $this->editPropModel["estObligatoire"] = $proprietearticle->estObligatoire;
+        $this->editPropModel["id"] = $proprietearticle->id;
         $this->dispatchBrowserEvent("showEditModal",[]);
     }
 
     public function closeEditModal()
     {
         $this->dispatchBrowserEvent("closeEditModal", []);
+    }
+
+    public function updateProp(ProprieteArticle $proprietearticle)
+    {
+        $this->validate([
+            "editPropModel.nomPropriete"=>[
+                "required",
+                Rule::unique("propriete_articles","nomPropriete")->ignore($this->editPropModel["id"])
+            ],
+            "editPropModel.estObligatoire"=>"required"
+            ]);
+        
+            ProprieteArticle::find($this->editPropModel["id"])->update([
+                "nomPropriete"=>$this->editPropModel["nomPropriete"],
+                "estObligatoire"=>$this->editPropModel["estObligatoire"]
+            ]);
+            // $proprietearticle->update([
+            //     "nomPropriete"=>$this->editPropModel["nomPropriete"],
+            //     "estObligatoire"=>$this->editPropModel["estObligatoire"]
+            // ]);
+
+            $this->closeEditModal();
+    
+        
+            $this->dispatchBrowserEvent("showSuccessMessage",["message"=>"Propriéte modifiée avec succès!!"]);
     }
 }

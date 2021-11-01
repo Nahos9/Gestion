@@ -26,7 +26,7 @@
                         </div>
                     </div>
                     <div>
-                    <button class="btn btn-success" wire:click="addProp()">Ajouter</button>
+                    <button class="btn btn-primary" wire:click="updateProp()">Valider</button>
                     </div>
                </div>
             </div>

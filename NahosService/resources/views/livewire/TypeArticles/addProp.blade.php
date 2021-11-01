@@ -2,7 +2,7 @@
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Gestion des caracteristique de "{{ optional($nameEdit)->nomPropriete }}" </h5>
+                <h5 class="modal-title">Gestion des caracteristique  </h5>
 
             </div>
             <div class="modal-body">
@@ -41,7 +41,7 @@
                                 <td>{{ $proprietearticle->nomPropriete }}</td>
                                 <td>{{ $proprietearticle->estObligatoire == 0 ? "NON": "OUI" }}</td>
                                 <td>
-                                    <button class="btn btn-link" wire:click="showModalEditPror()"> <i class="far fa-edit"></i> </button>
+                                    <button class="btn btn-link" wire:click="showModalEditPror({{$proprietearticle->id}})"> <i class="far fa-edit"></i> </button>
 
                                     @if (count($proprietearticle->articles)==0)
                                    
