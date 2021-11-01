@@ -9,24 +9,19 @@
                <div class="d-flex my-4 bg-gray-light p-3">
                     <div class="d-flex flex-grow-1 mr-2">
                         <div class="flex-grow-1 mr-2">
-                            <input type="text" placeholder="Nom propriété" wire:model="newPropModel.nomPropriete" class="form-control @error("newPropModel.nomPropriete") is-invalid @enderror">
-                            @error("newPropModel.nomPropriete")
-                                <span class="text-danger">{{$message}}</span>
-                            @enderror
+                            <input type="text" placeholder="Nom propriété" wire:model="newPropModel.nomPropriete" class="form-control">
+                         
                         </div>
                         <div class="flex-grow-1">
-                            <select class="form-control @error("newPropModel.estObligatoire") is-invalid @enderror" wire:model="newPropModel.estObligatoire">
+                            <select class="form-control ">
                                 <option value="">--Champ Obligatoire--</option>
                                 <option value="1">OUI</option>
                                 <option value="0">NON</option>
                             </select>
-                            @error("newPropModel.estObligatoire")
-                                <span class="text-danger">{{$message}}</span>
-                            @enderror
-                        </div>
+                          
                     </div>
                     <div>
-                    <button class="btn btn-success" wire:click="addProp()">Ajouter</button>
+                    <button class="btn btn-success" >Ajouter</button>
                     </div>
                </div>
                <table class="table table-bordered">
@@ -36,22 +31,20 @@
                         <th>Action</th>
                     </thead>
                     <tbody>
-                        @forelse ($proprietesarticles as $proprietearticle)
                             <tr>
-                                <td>{{ $proprietearticle->nomPropriete }}</td>
-                                <td>{{ $proprietearticle->estObligatoire == 0 ? "NON": "OUI" }}</td>
+                                <td>Samsung S10</td>
+                                <td>D'accord</td>
                                 <td>
-                                    <button class="btn btn-link" wire:click="showModalEditPror({{$proprietearticle->id}})"> <i class="far fa-edit"></i> </button>
+                                    <button class="btn btn-link" > <i class="far fa-edit"></i> </button>
 
-                                    @if (count($proprietearticle->articles)==0)
+                              
                                    
-                                    <button class="btn btn-link" wire:click="showDeletePrompt('{{$proprietearticle->nomPropriete}}', {{$proprietearticle->id}})"> <i class="far fa-trash-alt"></i> </button>
-                                        
-                                    @endif
+                                    <button class="btn btn-link" > <i class="far fa-trash-alt"></i> </button>
+
                                 
                                 </td>
                             </tr>
-                        @empty
+ 
                             <tr>
                                 <td colspan="3">
                                     <span class="text-info">Vous n'avez pas encore des propriétés définies pour ce type d'article</span>
@@ -65,7 +58,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger" wire:click="closeModal">Fermer</button>
+                <button type="button" class="btn btn-danger">Fermer</button>
             </div>
         </div>
     </div>

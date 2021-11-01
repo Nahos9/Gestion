@@ -11,9 +11,9 @@ class Article extends Model
 {
     use HasFactory;
 
-    public function typeArticle()
+    public function type()
     {
-        return $this->belongsTo(TypeArticle::class);
+        return $this->belongsTo(TypeArticle::class ,"type_article_id", "id");
     }
 
     public function proprieteArticles()
