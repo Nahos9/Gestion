@@ -31,10 +31,16 @@ class Utilisateur extends Component
 
     public function render()
     {
-        $searchCriteria = "%".$this->search."%";
+        $articleQuery = User::query();
+        if($this->search != "")
+        {
+            $articleQuery->where("nom","LIKE","%".$this->search."%")
+                          ->orWhere("prenom","LIKE","%".$this->search."%");
+        }
+
         Carbon::setLocale("fr");
         return view('livewire.utilisateurs.index',[
-            "users"=>User::where("nom","like",$searchCriteria)->latest()->paginate(3)
+            "users"=>$articleQuery->latest()->where("nom","LIKE","%".$this->search."%")->paginate(3)
         ])
                 ->extends('layouts.master')
                 ->section('contenu');

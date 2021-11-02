@@ -2,7 +2,7 @@
 
     @include("livewire.articles.list")
 
-    {{-- @include("livewire.articles.addArticle")  --}}
+    @include("livewire.articles.addArticle") 
     
     {{-- @include("livewire.articles.editArticle") --}}
 
@@ -72,13 +72,13 @@
 
 <script>
     window.addEventListener("showModal", event=>{
-       $("#modalProp").modal({
+       $("#modalAddArticle").modal({
            "show": true,
            "backdrop": "static"
        })
     })
     window.addEventListener("closeModal", event=>{
-       $("#modalProp").modal("hide")
+       $("#modalAddArticle").modal("hide")
     })
     window.addEventListener("showEditModal", event=>{
        $("#editModalProp").modal({

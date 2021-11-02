@@ -1,65 +1,59 @@
-<div class="modal fade" id="modalProp" tabindex="-1" role="dialog" wire:ignore.self>
-    <div class="modal-dialog modal-xl">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title">Gestion des caracteristique  </h5>
+<div class="modal fade" id="modalAddArticle" tabindex="-1" role="dialog" wire:ignore.self>
+  <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h5 class="modal-title">Ajout d'un nouvel article</h5>
 
-            </div>
-            <div class="modal-body">
-               <div class="d-flex my-4 bg-gray-light p-3">
-                    <div class="d-flex flex-grow-1 mr-2">
-                        <div class="flex-grow-1 mr-2">
-                            <input type="text" placeholder="Nom propriété" wire:model="newPropModel.nomPropriete" class="form-control">
-                         
+          </div>
+          <form wire:submit.prevent="ajouterArticle">
+          <div class="modal-body">
+            <div class="d-flex">
+              <div class="my-4 bg-gray-light p-3 flex-grow-1">
+                <div class="form-group">
+                  <input type="text" class="form-control" wire:model="addArticle.nom" placeholder="Nom de l'article">
+                </div>
+                <div class="form-group">
+                  <input type="text" class="form-control" wire:model="addArticle.noSerie" placeholder="Numéro de série">
+                </div>
+                <div class="form-group">
+                  <select class="form-control" wire:model="addArticle.type">
+                    <option value=""></option>
+                    @foreach ($typearticles as $typearticle)
+                    <option value="{{$typearticle->id}}">{{$typearticle->nom}}</option>
+                  @endforeach
+                  </select>
+                </div>
+                
+                @if ($proprieteArticles != null)
+                <p style="border: 1px dashed black "></p>
+              <div>
+                @foreach ($proprieteArticles as $propriete)
+                <div class="form-group">
+                  <label for="">{{$propriete->nomPropriete}}</label>
+                  <input type="text" class="form-control" >
+                </div>
+                @endforeach
+              </div>
+              @endif
+              </div>
+              
+              <div class="p-4">
+                        <div class="form-group">
+                            <input type="file">
                         </div>
-                        <div class="flex-grow-1">
-                            <select class="form-control ">
-                                <option value="">--Champ Obligatoire--</option>
-                                <option value="1">OUI</option>
-                                <option value="0">NON</option>
-                            </select>
-                          
-                    </div>
-                    <div>
-                    <button class="btn btn-success" >Ajouter</button>
-                    </div>
-               </div>
-               <table class="table table-bordered">
-                    <thead class="bg-primary">
-                        <th>Nom propriété</th>
-                        <th>Est obligatoire</th>
-                        <th>Action</th>
-                    </thead>
-                    <tbody>
-                            <tr>
-                                <td>Samsung S10</td>
-                                <td>D'accord</td>
-                                <td>
-                                    <button class="btn btn-link" > <i class="far fa-edit"></i> </button>
+                        <div style="border: 1px solid #d0d1d3; border-radius:20px; height:300px">
 
-                              
-                                   
-                                    <button class="btn btn-link" > <i class="far fa-trash-alt"></i> </button>
-
-                                
-                                </td>
-                            </tr>
- 
-                            <tr>
-                                <td colspan="3">
-                                    <span class="text-info">Vous n'avez pas encore des propriétés définies pour ce type d'article</span>
-                                </td>
-                            </tr>
-                        @endforelse
-
-                    </tbody>
-               </table>
-
-
+                        </div>
+              </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-danger">Fermer</button>
-            </div>
-        </div>
-    </div>
+           
+            
+          </div>
+          <div class="modal-footer">
+              <button type="submit" class="btn btn-success">Ajouter</button>
+              <button type="button" class="btn btn-danger" wire:click="closeModal">Fermer</button>
+          </div>
+        </form>
+      </div>
+  </div>
 </div>
