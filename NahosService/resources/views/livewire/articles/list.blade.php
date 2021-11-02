@@ -7,7 +7,7 @@
             <div class="card-tools d-flex align-items-center">
                 <a href="" class="btn btn-link text-white mr-4 d-block" ><i class="fas fa-user-plus"></i>Ajouté un article</a>
               <div class="input-group input-group-md " style="width: 250px;">
-                <input type="text" name="table_search" class="form-control float-right" placeholder="Search">
+                <input type="text" name="table_search" wire:model.debounce.250ms='search' class="form-control float-right" placeholder="Search">
     
                 <div class="input-group-append">
                   <button type="submit" class="btn btn-default">
@@ -33,19 +33,22 @@
               <tbody>
                 @foreach ($articles as $article)
                 <tr>
-                   <td>{{$article->nom }}</td>
-                   <td>{{$article->typeArticle->id}}</td>
+                  <td>
+                    <img src="{{asset('img/photo.png')}}" alt="" style="width: 60px;height:60px;">
+                  </td>
+                   <td>{{$article->nom }} - {{$article->noSerie}}</td>
+                   <td>{{$article->type->nom}}</td>
                    <td>
                      @if($article->estDisponible)
-                      <span class="badge badge-succes"></span>
+                      <span class="badge badge-success">Disponible</span>
                       @else
-                      <span class="badge badge-danger"></span>
+                      <span class="badge badge-danger">Indisponible</span>
                       @endif
                    </td>
                    <td>{{optional($article->created_at)->diffForHumans()}}</td>
                    <td>
                     <button class="btn btn-link" wire:click='editArticle({{$article->id}})'> <i class="far fa-edit btn btn-link"> Editer</i></button>
-                    <button class="btn btn-link" wire:click='editArticle({{$article->id}})'> <i class="far fa-edit btn btn-link"> Supprimer</i></button>
+                    <button class="btn btn-link" wire:click='comfirmDeleteArticle({{$article->id}})'> <i class="far fa-trash-alt  btn btn-link"> Supprimer</i></button>
                    </td>
                 </tr> 
                 @endforeach
@@ -55,7 +58,7 @@
           </div>
           <div class="card-footer">
             <div class="float-right">
-
+              {{$articles->links()}}
           </div>
           </div>
           <!-- /.card-body -->

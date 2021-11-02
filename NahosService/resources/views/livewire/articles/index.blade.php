@@ -58,8 +58,9 @@
         cancelButtonText: 'Annuler'
         }).then((result) => {
         if (result.isConfirmed) {
-            if(event.detail.message.data.type_article_id){
-               
+            if(event.detail.message.data.article_id){
+
+               @this.deleteArticle(event.detail.message.data.article_id)
             }
             if(event.detail.message.data.propriete_id){
               
