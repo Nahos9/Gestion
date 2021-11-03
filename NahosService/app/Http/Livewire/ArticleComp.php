@@ -20,7 +20,7 @@ class ArticleComp extends Component
 
     public $addArticle = [];
 
-    public $proprieteArticles = null;
+    public $proprieteArticles = [];
     
     public function render()
     {
@@ -96,6 +96,29 @@ class ArticleComp extends Component
     //ajouter un article
     public function ajouterArticle()
     {
-        dump($this->addArticle);
+
+        // dump($this->addArticle);
+        $validateAttr = [
+            "addArticle.nom"=>"string|min:3|required",
+            "addArticle.noSerie"=>"string|max:50|min:3|required",
+            "addArticle.type"=>"required"
+        ];
+
+        $customErrMessage = [];
+        // dump($validateAttr);
+
+        foreach($this->proprieteArticles as $propriete){
+
+            $field = "addArticle.prop".$propriete->nomPropriete;
+
+            if($propriete->estObligatoire){
+                $validateAttr[$field] = "required";
+                $customErrMessage["$field.required"] = "Le champ  <<". $propriete->nomPropriete .">> est obligatoire";
+            }else{
+                $validateAttr[$field] = "nullable";
+            }
+        }
+
+        $this->validate($validateAttr,$customErrMessage);
     }
 }

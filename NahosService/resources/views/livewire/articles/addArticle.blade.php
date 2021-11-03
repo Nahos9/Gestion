@@ -7,6 +7,16 @@
           </div>
           <form wire:submit.prevent="ajouterArticle">
           <div class="modal-body">
+            @if ($errors->any())
+              <div class="alert alert-danger alert-dismissible">
+                <h5><i class="icon fas fa-ban"></i> Erreurs</h5>
+                 <ul>
+                     @foreach ($errors->all() as $error)
+                        <li>{{$error}}</li>
+                     @endforeach
+                   </ul>
+              </div>
+              @endif
             <div class="d-flex">
               <div class="my-4 bg-gray-light p-3 flex-grow-1">
                 <div class="form-group">
@@ -23,14 +33,17 @@
                   @endforeach
                   </select>
                 </div>
-                
+                {{-- affichage de la partie dynamique des chanps liés au type de la propriété --}}
                 @if ($proprieteArticles != null)
                 <p style="border: 1px dashed black "></p>
               <div>
                 @foreach ($proprieteArticles as $propriete)
                 <div class="form-group">
-                  <label for="">{{$propriete->nomPropriete}}</label>
-                  <input type="text" class="form-control" >
+                  <label for="">{{$propriete->nomPropriete}} @if (!$propriete->estObligatoire) (optionel) @endif</label>
+                  @php
+                      $field = "addArticle.prop.".$propriete->nomPropriete;
+                  @endphp
+                  <input type="text" class="form-control" wire:model="{{ $field }}">
                 </div>
                 @endforeach
               </div>
