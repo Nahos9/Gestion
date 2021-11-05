@@ -7,7 +7,10 @@
           </div>
           <form wire:submit.prevent="ajouterArticle">
           <div class="modal-body">
-            @if ($errors->any())
+            
+            <div class="d-flex">
+              <div class="my-4 bg-gray-light p-3 flex-grow-1">
+                @if ($errors->any())
               <div class="alert alert-danger alert-dismissible">
                 <h5><i class="icon fas fa-ban"></i> Erreurs</h5>
                  <ul>
@@ -17,8 +20,6 @@
                    </ul>
               </div>
               @endif
-            <div class="d-flex">
-              <div class="my-4 bg-gray-light p-3 flex-grow-1">
                 <div class="form-group">
                   <input type="text" class="form-control" wire:model="addArticle.nom" placeholder="Nom de l'article">
                 </div>
@@ -42,6 +43,7 @@
                   <label for="">{{$propriete->nomPropriete}} @if (!$propriete->estObligatoire) (optionel) @endif</label>
                   @php
                       $field = "addArticle.prop.".$propriete->nomPropriete;
+                      // addArticle.prop.{{$propriete->nomPropriete}}
                   @endphp
                   <input type="text" class="form-control" wire:model="{{ $field }}">
                 </div>

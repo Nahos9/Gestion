@@ -17,8 +17,8 @@ class CreateArticlesTable extends Migration
             $table->id();
             $table->string('nom');
             $table->string('noSerie');
-            $table->string('estDisponible');
-            $table->string('imageUrl');
+            $table->string('estDisponible')->default(1);
+            $table->string('imageUrl')->nullable();
             $table->foreignId('type_article_id')->constrained();
             $table->timestamps();
         });
