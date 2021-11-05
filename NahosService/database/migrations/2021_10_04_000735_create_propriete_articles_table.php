@@ -16,7 +16,7 @@ class CreateProprieteArticlesTable extends Migration
         Schema::create('propriete_articles', function (Blueprint $table) {
             $table->id();
             $table->string('nomPropriete');
-            $table->string('estObligatoire');
+            $table->string('estObligatoire')->default(0)->nullable();
             $table->foreignId('type_article_id')->constrained();
             $table->timestamps();
 

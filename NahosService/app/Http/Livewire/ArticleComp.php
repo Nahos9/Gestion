@@ -9,10 +9,11 @@ use App\Models\ProprieteArticle;
 use App\Models\TypeArticle;
 use Livewire\Component;
 use Livewire\WithPagination;
+use Livewire\WithFileUploads;
 
 class ArticleComp extends Component
 {
-    use WithPagination;
+    use WithPagination,WithFileUploads;
     protected $paginationTheme = 'bootstrap';
 
     public $search = "";
@@ -22,6 +23,8 @@ class ArticleComp extends Component
     public $addArticle = [];
 
     public $proprieteArticles = [];
+
+    public $images;
     
     public function render()
     {
@@ -100,15 +103,18 @@ class ArticleComp extends Component
     {
 
         // dump($this->addArticle);
+
+        //reglès de validation des entrés satatiques de notre article
         $validateAttr = [
             "addArticle.nom"=>"string|min:3|required",
             "addArticle.noSerie"=>"string|max:50|min:3|required",
-            "addArticle.type"=>"required"
+            "addArticle.type"=>"required",
+            "images"=>"image|max:10240"
         ];
 
         $customErrMessage = [];
         $proIds = [];
-
+        // reglès des validations des entrées dynamiques de notre article (le propritées du au type d'article choisi)
         foreach($this->proprieteArticles as $propriete){
 
             $Namefield = "addArticle.prop.".$propriete->nomPropriete;
@@ -124,11 +130,16 @@ class ArticleComp extends Component
         
         
        $data =  $this->validate($validateAttr,$customErrMessage);
-            // dump($data);
+            if($this->images != ""){
+
+             $imagePath = $this->images->store('upload', 'public');
+
+            }
         $article =  Article::create([
             "nom" => $data["addArticle"]["nom"],
             "noSerie" => $data["addArticle"]["noSerie"],
-            "type_article_id" => $data["addArticle"]["type"]
+            "type_article_id" => $data["addArticle"]["type"],
+            "imageUrl"=>$imagePath
         ]);
 
         foreach($data["addArticle"]["prop"]?: [] as $key=>$propriete){
