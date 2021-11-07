@@ -1,50 +1,4 @@
-{{-- <div class="modal fade" id="modalAddArticle" tabindex="-1" role="dialog" wire:ignore.self>
-  <div class="modal-dialog modal-xl">
-      <div class="modal-content">
-          <div class="modal-header">
-              <h5 class="modal-title">Ajout d'un nouvel article</h5>
 
-          </div>
-          <div class="modal-body">
-            <div class="d-flex">
-              <div class="flex-grow-1">
-                <div class="form-group">
-                  <input type="text" class="form-control" wire:model="addArticle.nom" placeholder="Nom de l'article">
-                </div>
-                <div class="form-group">
-                  <input type="text" class="form-control" wire:model="addArticle.noSerie" placeholder="Numéro de série">
-                </div>
-                <div class="form-group">
-                  <select class="form-control" wire:model="addArticle.type">
-                    <option value=""></option>
-                    @foreach ($typearticles as $typearticle)
-                    <option value="{{$typearticle->id}}">{{$typearticle->nom}}</option>
-                  @endforeach
-                  </select>
-                </div>
-              </div>
-              <div class="flex grow-1 ">
-                  <h1>Bonjour</h1>
-              </div>
-            </div>
-            @if ($proprieteArticles != null)
-            <div>
-              @foreach ($proprieteArticles as $propriete)
-              <div class="form-group">
-                <label for="">{{$propriete->nomPropriete}}</label>
-                <input type="text" class="form-control" wire:model="addArticle.noSerie" placeholder="Numéro de série">
-              </div>
-              @endforeach
-            </div>
-            @endif
-            
-          </div>
-          <div class="modal-footer">
-              <button type="button" class="btn btn-danger" wire:click="closeModal">Fermer</button>
-          </div>
-      </div>
-  </div>
-</div> --}}
 <div>
     <div class="col-12 ">
         <div class="card p-4 mt-4 ">
@@ -101,7 +55,11 @@
                   @forelse ($articles as $article)
                   <tr>
                     <td>
+                      @if ($article->imageUrl !="")
+                      <img src="{{asset('storage/'.$article->imageUrl)}}" alt="" style="width: 60px;height:60px;">
+                      @else
                       <img src="{{asset('img/photo.png')}}" alt="" style="width: 60px;height:60px;">
+                      @endif
                     </td>
                      <td>{{$article->nom }} - {{$article->noSerie}}</td>
                      <td>{{$article->type->nom}}</td>

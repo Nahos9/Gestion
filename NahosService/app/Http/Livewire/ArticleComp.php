@@ -130,6 +130,7 @@ class ArticleComp extends Component
         
         
        $data =  $this->validate($validateAttr,$customErrMessage);
+       
             if($this->images != ""){
 
              $imagePath = $this->images->store('upload', 'public');
