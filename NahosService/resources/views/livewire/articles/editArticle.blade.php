@@ -21,10 +21,10 @@
                 </div>
                 @endif
                   <div class="form-group">
-                    <input type="text" class="form-control" wire:model="editArticle.nom" placeholder="Nom de l'article">
+                    <input type="text" class="form-control" wire:model="editArticle.nom">
                   </div>
                   <div class="form-group">
-                    <input type="text" class="form-control" wire:model="editArticle.noSerie" placeholder="Numéro de série">
+                    <input type="text" class="form-control" wire:model="editArticle.noSerie">
                   </div>
                   <div class="form-group">
                     <select class="form-control" wire:model="editArticle.type_article_id">
