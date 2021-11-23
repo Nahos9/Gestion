@@ -1,33 +1,75 @@
-<div class="modal fade" id="editModalProp" style="z-index: 1200;" tabindex="-1" role="dialog" wire:ignore.self>
+<div class="modal fade" id="editModalProp" tabindex="-1" role="dialog" wire:ignore.self>
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Modification de l'article </h5>
-
+                <h5 class="modal-title">Modification d'un article</h5>
+  
             </div>
+            <form wire:submit.prevent="ajouterArticle">
             <div class="modal-body">
-               <div class="d-flex my-4 bg-gray-light p-3">
-                    <div class="d-flex flex-grow-1 mr-2">
-                        <div class="flex-grow-1 mr-2">
-                            <input type="text" placeholder="Nom propriété" class="form-control ">
-                          
-                        </div>
-                        <div class="flex-grow-1">
-                            <select class="form-control">
-                                <option value="">--Champ Obligatoire--</option>
-                                <option value="1">OUI</option>
-                                <option value="0">NON</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div>
-                    <button class="btn btn-primary" >Valider</button>
-                    </div>
-               </div>
+              
+              <div class="d-flex">
+                <div class="my-4 bg-gray-light p-3 flex-grow-1">
+                  @if ($errors->any())
+                <div class="alert alert-danger alert-dismissible">
+                  <h5><i class="icon fas fa-ban"></i> Erreurs</h5>
+                   <ul>
+                       @foreach ($errors->all() as $error)
+                          <li>{{$error}}</li>
+                       @endforeach
+                     </ul>
+                </div>
+                @endif
+                  <div class="form-group">
+                    <input type="text" class="form-control" wire:model="editArticle.nom" placeholder="Nom de l'article">
+                  </div>
+                  <div class="form-group">
+                    <input type="text" class="form-control" wire:model="editArticle.noSerie" placeholder="Numéro de série">
+                  </div>
+                  <div class="form-group">
+                    <select class="form-control" wire:model="editArticle.type_article_id">
+                      <option value="{{$editArticle["type_article_id"]}}">{{$editArticle["type"]["nom"]}}</option>
+                     
+                    </select>
+                  </div>
+                  {{-- affichage de la partie dynamique des chanps liés au type de la propriété --}}
+                  @if ($proprieteArticles != null)
+                  <p style="border: 1px dashed black "></p>
+                <div>
+                  @foreach ($proprieteArticles as $propriete)
+                  <div class="form-group">
+                    <label for="">{{$propriete->nomPropriete}} @if (!$propriete->estObligatoire) (optionel) @endif</label>
+                    @php
+                        $field = "addArticle.prop.".$propriete->nomPropriete;
+                        // addArticle.prop.{{$propriete->nomPropriete}}
+                    @endphp
+                    <input type="text" class="form-control" wire:model="{{ $field }}">
+                  </div>
+                  @endforeach
+                </div>
+                @endif
+                </div>
+                
+                <div class="p-4">
+                          <div class="form-group">
+                              <input type="file"  wire:model="images">
+                          </div>
+                          <div style="border: 1px solid #d0d1d3; border-radius:20px; height:300px; overflow:hidden;">
+                            @if ($images)
+  
+                            <img src="{{ $images->temporaryUrl() }}" style="height: 200px;width:200px">
+                        @endif
+                          </div>
+                </div>
+              </div>
+             
+              
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-danger">Fermer</button>
+                <button type="submit" class="btn btn-success">Ajouter</button>
+                <button type="button" class="btn btn-danger" wire:click="closeEditModal">Fermer</button>
             </div>
+          </form>
         </div>
     </div>
-</div>
+  </div>

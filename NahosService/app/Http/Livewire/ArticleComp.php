@@ -25,6 +25,8 @@ class ArticleComp extends Component
     public $proprieteArticles = [];
 
     public $images;
+
+    public $editArticle = [];
     
     public function render()
     {
@@ -150,8 +152,21 @@ class ArticleComp extends Component
                 "valeur"=>$propriete
             ]);
         }
-
         $this->closeModal();
         $this->dispatchBrowserEvent("showSuccessMessage",["message"=>"Article ajouté avec succès!!"]);
+    }
+
+    //modification d'un article
+
+    public function editArticle($articleId)
+    {
+       $this->editArticle = Article::with("article_proprietes","type")->find($articleId)->toArray();
+    //    dd($this->editArticle = $article->toArray());
+        $this->dispatchBrowserEvent("showEditModal",[]);
+    }
+
+    public function closeEditModal()
+    {
+        $this->dispatchBrowserEvent("closeEditModal");
     }
 }

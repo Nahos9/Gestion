@@ -19,11 +19,16 @@ class Article extends Model
 
     public function proprieteArticles()
     {
-        return $this->belongsToMany(ProprieteArticle::class);
+        return $this->belongsToMany(ProprieteArticle::class,"article_propriete","article_id","propriete_article_id");
     }
     
     public function locations()
     {
         return $this->belongsToMany(Location::class,"article_location","article_id","location_id");
+    }
+
+    public function article_proprietes()
+    {
+       return $this->hasMany(ArticlePropriete::class);
     }
 }

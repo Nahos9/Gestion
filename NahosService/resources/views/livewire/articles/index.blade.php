@@ -4,7 +4,9 @@
 
     @include("livewire.articles.addArticle") 
     
-    {{-- @include("livewire.articles.editArticle") --}}
+    @if ($editArticle)
+    @include("livewire.articles.editArticle")
+    @endif
 
 
 
