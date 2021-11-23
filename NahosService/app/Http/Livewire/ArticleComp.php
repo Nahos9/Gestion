@@ -27,6 +27,13 @@ class ArticleComp extends Component
     public $images;
 
     public $editArticle = [];
+
+    protected $rules = [
+        "editArticle.nom" => "required",
+        "editArticle.noSerie" => "required",
+        "editArticle.type_article_id" => "required",
+        "editArticle.article_proprietes.*.valeur" => "required",
+    ];
     
     public function render()
     {
@@ -160,8 +167,9 @@ class ArticleComp extends Component
 
     public function editArticle($articleId)
     {
-       $this->editArticle = Article::with("article_proprietes","type")->find($articleId)->toArray();
+       $this->editArticle = Article::with("article_proprietes","article_proprietes.propriete","type")->find($articleId)->toArray();
     //    dd($this->editArticle = $article->toArray());
+    // dd($this->editArticle);
         $this->dispatchBrowserEvent("showEditModal",[]);
     }
 

@@ -33,17 +33,13 @@
                     </select>
                   </div>
                   {{-- affichage de la partie dynamique des chanps liés au type de la propriété --}}
-                  @if ($proprieteArticles != null)
+                  @if ($editArticle["article_proprietes"] != [])
                   <p style="border: 1px dashed black "></p>
                 <div>
-                  @foreach ($proprieteArticles as $propriete)
+                  @foreach ($editArticle["article_proprietes"] as $key => $proprieteArticle)
                   <div class="form-group">
-                    <label for="">{{$propriete->nomPropriete}} @if (!$propriete->estObligatoire) (optionel) @endif</label>
-                    @php
-                        $field = "addArticle.prop.".$propriete->nomPropriete;
-                        // addArticle.prop.{{$propriete->nomPropriete}}
-                    @endphp
-                    <input type="text" class="form-control" wire:model="{{ $field }}">
+                    <label for="">{{$proprieteArticle["propriete"]["nomPropriete"]}} @if (!$proprieteArticle["propriete"]["estObligatoire"]) (optionel) @endif</label>
+                    <input type="text" class="form-control" wire:model="editArticle.article_proprietes.{{$key}}.valeur" >
                   </div>
                   @endforeach
                 </div>

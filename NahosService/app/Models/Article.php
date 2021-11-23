@@ -31,4 +31,6 @@ class Article extends Model
     {
        return $this->hasMany(ArticlePropriete::class);
     }
+
+    
 }
