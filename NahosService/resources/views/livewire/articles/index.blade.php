@@ -3,10 +3,10 @@
     @include("livewire.articles.list")
 
     @include("livewire.articles.addArticle") 
+@if ($editArticle)
     
-    @if ($editArticle)
-    @include("livewire.articles.editArticle")
-    @endif
+@include("livewire.articles.editArticle")   
+@endif
 
 
 
@@ -83,12 +83,12 @@
        $("#modalAddArticle").modal("hide")
     })
     window.addEventListener("showEditModal", event=>{
-       $("#editModalProp").modal({
+       $("#editModalArticle").modal({
            "show": true,
            "backdrop": "static"
        })
     })
     window.addEventListener("closeEditModal", event=>{
-       $("#editModalProp").modal("hide")
+       $("#editModalArticle").modal("hide")
     })
 </script>

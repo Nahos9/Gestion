@@ -25,6 +25,7 @@ class ArticleComp extends Component
     public $proprieteArticles = [];
 
     public $images;
+    public $imagesEdit;
 
     public $editArticle = [];
 
@@ -165,16 +166,15 @@ class ArticleComp extends Component
 
     //modification d'un article
 
-    public function editArticle($articleId)
-    {
-       $this->editArticle = Article::with("article_proprietes","article_proprietes.propriete","type")->find($articleId)->toArray();
-    //    dd($this->editArticle = $article->toArray());
+ public function editArticle($articleId)
+ {
+    $this->editArticle = Article::with("type","article_proprietes.propriete")->find($articleId)->toArray();
     // dd($this->editArticle);
-        $this->dispatchBrowserEvent("showEditModal",[]);
-    }
+    $this->dispatchBrowserEvent("showEditModal",[]);
+ }
 
-    public function closeEditModal()
-    {
-        $this->dispatchBrowserEvent("closeEditModal");
-    }
+ public function closeEditModal()
+ {
+     $this->dispatchBrowserEvent("closeEditModal");
+ }
 }
