@@ -5,7 +5,7 @@
               <h5 class="modal-title">Modification d'un  article</h5>
 
           </div>
-          <form wire:submit.prevent="ajouterArticle">
+          <form wire:submit.prevent="updateArticle">
           <div class="modal-body">
             
             <div class="d-flex">
@@ -51,14 +51,19 @@
               
               <div class="p-4">
                         <div class="form-group">
-                            <input type="file"  wire:model="images">
+                            <input type="file"  wire:model="imageEdit">
                         </div>
                         <div style="border: 1px solid #d0d1d3; border-radius:20px; height:300px; overflow:hidden;">
-                          @if ($imagesEdit)
-
-                          <img src="{{ $imagesEdit->temporaryUrl() }}" style="height: 200px;width:200px">
+                          @if (isset($imageEdit))
+                          <img src="{{ $imageEdit->temporaryUrl() }}" style="height: 200px;width:200px">
+                          @else
+                          <img src="{{asset($editArticle["imageUrl"])}}">
                       @endif
                         </div>
+
+                        @isset($imageEdit)
+                            <button class="btn btn-default btn-sm mt-2" wire:click="$set('imageEdit',null)">Rénitialiser la photo</button>
+                        @endisset
               </div>
             </div>
            

@@ -27,7 +27,7 @@ class ArticleFactory extends Factory
             "nom"=>$this->faker->sentence,
             "noSerie"=>$this->faker->swiftBicNumber,
             "estDisponible"=>rand(0,1),
-            "imageUrl"=>"",
+            "imageUrl"=>"img/photo.png",
             "type_article_id"=>rand(1,4)     
           ];
     }

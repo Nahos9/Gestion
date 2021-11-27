@@ -25,7 +25,7 @@ class ArticleComp extends Component
     public $proprieteArticles = [];
 
     public $images;
-    public $imagesEdit;
+    public $imageEdit;
 
     public $editArticle = [];
 
@@ -141,9 +141,12 @@ class ArticleComp extends Component
         
        $data =  $this->validate($validateAttr,$customErrMessage);
        
+       $imagePath = "img/photo.png";
+
             if($this->images != ""){
 
-             $imagePath = $this->images->store('upload', 'public');
+             $path = $this->images->store('upload', 'public');
+             $imagePath = "storage/".$path;
 
             }
         $article =  Article::create([
@@ -164,7 +167,7 @@ class ArticleComp extends Component
         $this->dispatchBrowserEvent("showSuccessMessage",["message"=>"Article ajouté avec succès!!"]);
     }
 
-    //modification d'un article
+    //modification d'un article (formaulaire de modifiaction)
 
  public function editArticle($articleId)
  {
@@ -172,7 +175,11 @@ class ArticleComp extends Component
     // dd($this->editArticle);
     $this->dispatchBrowserEvent("showEditModal",[]);
  }
-
+// fonction de modification d'un article
+public function updateArticle()
+{
+    
+}
  public function closeEditModal()
  {
      $this->dispatchBrowserEvent("closeEditModal");
