@@ -29,6 +29,30 @@ class ArticleComp extends Component
 
     public $editArticle = [];
 
+    public $hasChange;
+
+    public $valueEditOld = [];
+
+    // cette founction permet de savoir si une  valeur d'une propriété de notre article à changer et afficher le boutton de modification
+    public function showEditBouttun()
+    {
+        $this->hasChange = false;
+
+        foreach ($this->valueEditOld["article_proprietes"] as $key => $valueOld) {
+            if($this->editArticle["article_proprietes"][$key]["valeur"] !== $valueOld["valeur"] )
+            {
+                $this->hasChange = true;
+            }
+        }
+        if(
+            $this->valueEditOld["nom"] !==$this->editArticle["nom"] ||
+            $this->valueEditOld["noSerie"] !==$this->editArticle["noSerie"] ||
+            $this->imageEdit !==null
+        ){
+            $this->hasChange = true;
+        }
+    }
+
     protected $rules = [
         "editArticle.nom" => "required",
         "editArticle.noSerie" => "required",
@@ -46,7 +70,7 @@ class ArticleComp extends Component
             $articleQuery->where("nom","LIKE","%".$this->search."%")
                           ->orWhere("noSerie","LIKE","%".$this->search."%");
         }
-
+        
         if($this->filtreType != "")
         {
             $articleQuery->where("type_article_id",$this->filtreType);
@@ -54,6 +78,10 @@ class ArticleComp extends Component
         if($this->filtreEtat != "")
         {
             $articleQuery->where("estDisponible",$this->filtreEtat);
+        }
+        if($this->editArticle !== [])
+        {
+            $this->showEditBouttun();
         }
         return view('livewire.articles.index',[
             "articles"=>$articleQuery->latest()->where("nom","LIKE","%".$this->search."%")
@@ -172,7 +200,7 @@ class ArticleComp extends Component
  public function editArticle($articleId)
  {
     $this->editArticle = Article::with("type","article_proprietes.propriete")->find($articleId)->toArray();
-    // dd($this->editArticle);
+    $this->valueEditOld = $this->editArticle;
     $this->dispatchBrowserEvent("showEditModal",[]);
  }
 // fonction de modification d'un article

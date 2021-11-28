@@ -70,7 +70,9 @@
             
           </div>
           <div class="modal-footer">
-              <button type="submit" class="btn btn-success">Ajouter</button>
+            @if ($hasChange)
+            <button type="submit" class="btn btn-success">Appliquer les modifications</button> 
+            @endif
               <button type="button" class="btn btn-danger" wire:click="closeEditModal">Fermer</button>
           </div>
         </form>
