@@ -7,6 +7,8 @@ use App\Models\Article;
 use App\Models\ArticlePropriete;
 use App\Models\ProprieteArticle;
 use App\Models\TypeArticle;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Livewire\WithFileUploads;
@@ -25,6 +27,7 @@ class ArticleComp extends Component
     public $proprieteArticles = [];
 
     public $images;
+
     public $imageEdit;
 
     public $editArticle = [];
@@ -53,13 +56,15 @@ class ArticleComp extends Component
         }
     }
 
-    protected $rules = [
-        "editArticle.nom" => "required",
-        "editArticle.noSerie" => "required",
-        "editArticle.type_article_id" => "required",
-        "editArticle.article_proprietes.*.valeur" => "required",
-    ];
-    
+
+protected function rules(){
+   return [
+    'editArticle.nom' =>["required",Rule::unique("articles","nom")->ignore($this->editArticle["id"])],
+    'editArticle.noSerie' => ["required",Rule::unique("articles","noSerie")->ignore($this->editArticle["id"])],
+    'editArticle.type_article_id' => "required|exists:App\Models\TypeArticle,id",
+    'editArticle.article_proprietes.*.valeur' => "required",
+        ];
+    }
     public function render()
     {
         Carbon::setLocale("fr");
@@ -144,8 +149,8 @@ class ArticleComp extends Component
 
         //reglès de validation des entrés satatiques de notre article
         $validateAttr = [
-            "addArticle.nom"=>"string|min:3|required",
-            "addArticle.noSerie"=>"string|max:50|min:3|required",
+            "addArticle.nom"=>"string|min:3|required|unique:articles,nom",
+            "addArticle.noSerie"=>"string|max:50|min:3|required|unique:articles,noSerie",
             "addArticle.type"=>"required",
             "images"=>"image|max:10240"
         ];
@@ -204,10 +209,30 @@ class ArticleComp extends Component
     $this->dispatchBrowserEvent("showEditModal",[]);
  }
 // fonction de modification d'un article
+
 public function updateArticle()
 {
+    $this->validate();
+
+    $article = Article::find($this->editArticle["id"]);
+    $article->fill($this->editArticle);
+
+    if($this->imageEdit!==null){
+        $path = $this->imageEdit->store('upload', 'public');
+        $imagePath = "storage/".$path;
+
+        Storage::disk("local")->delete(str_replace("storage/","public/",$article->imageUrl));
+    }
+    $article->save();
     
+collect($this->editArticle["article_proprietes"])
+->each(function($tiem));
+
+$this->dispatchBrowserEvent("showSuccessMessage",["message"=>"Article mis à jour avec succès!!"]);
+$this->closeEditModal();
+
 }
+
  public function closeEditModal()
  {
      $this->dispatchBrowserEvent("closeEditModal");

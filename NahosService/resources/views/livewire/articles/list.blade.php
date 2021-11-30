@@ -19,8 +19,8 @@
             </div>
           </div>
           <!-- /.card-header -->
-          <div class="card-body table-responsive p-0">
-            <div  class="d-flex justify-content-end bg-dark p-4">
+          <div class="card-body table-responsive p-0" style="width:100%">
+            <div  class="d-flex justify-content-end bg-info p-4 "style="width:100%">
               <div class="groupe-form">
                 <label for="filtreType" class="form-control">Filtrer par type</label>
                 <select  id="filtreType" class="form-control" wire:model.debounce='filtreType'>
