@@ -10,6 +10,7 @@
   <!-- Font Awesome Icons -->
   {{-- <link rel="stylesheet" href="{{asset('font/all.min.css}}"> --}}
   <!-- Theme style -->
+  <link rel="shortcut icon" href="{{asset('img/icon.png')}}">
   <link rel="stylesheet" href="{{asset('css/app.css')}}">
 </head>
 <body class="hold-transition sidebar-mini">

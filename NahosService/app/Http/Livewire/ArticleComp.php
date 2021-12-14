@@ -8,6 +8,7 @@ use App\Models\ArticlePropriete;
 use App\Models\ProprieteArticle;
 use App\Models\TypeArticle;
 use Illuminate\Support\Facades\Storage;
+use Intervention\Image\Facades\Image;
 use Illuminate\Validation\Rule;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -15,12 +16,13 @@ use Livewire\WithFileUploads;
 
 class ArticleComp extends Component
 {
-    use WithPagination,WithFileUploads;
+    use WithPagination, WithFileUploads;
+
     protected $paginationTheme = 'bootstrap';
 
     public $search = "";
 
-    public $filtreEtat = "", $filtreType="";
+    public $filtreEtat = "", $filtreType = "";
 
     public $addArticle = [];
 
@@ -42,79 +44,74 @@ class ArticleComp extends Component
         $this->hasChange = false;
 
         foreach ($this->valueEditOld["article_proprietes"] as $key => $valueOld) {
-            if($this->editArticle["article_proprietes"][$key]["valeur"] !== $valueOld["valeur"] )
-            {
+            if ($this->editArticle["article_proprietes"][$key]["valeur"] !== $valueOld["valeur"]) {
                 $this->hasChange = true;
             }
         }
-        if(
-            $this->valueEditOld["nom"] !==$this->editArticle["nom"] ||
-            $this->valueEditOld["noSerie"] !==$this->editArticle["noSerie"] ||
-            $this->imageEdit !==null
-        ){
+        if (
+            $this->valueEditOld["nom"] !== $this->editArticle["nom"] ||
+            $this->valueEditOld["noSerie"] !== $this->editArticle["noSerie"] ||
+            $this->imageEdit !== null
+        ) {
             $this->hasChange = true;
         }
     }
 
 
-protected function rules(){
-   return [
-    'editArticle.nom' =>["required",Rule::unique("articles","nom")->ignore($this->editArticle["id"])],
-    'editArticle.noSerie' => ["required",Rule::unique("articles","noSerie")->ignore($this->editArticle["id"])],
-    'editArticle.type_article_id' => "required|exists:App\Models\TypeArticle,id",
-    'editArticle.article_proprietes.*.valeur' => "required",
-        ];
-    }
+    // protected function rules()
+    // {
+    //     return [
+    //         'editArticle.nom' => ["required", Rule::unique("articles", "nom")->ignore($this->editArticle["id"])],
+    //         'editArticle.noSerie' => ["required", Rule::unique("articles", "noSerie")->ignore($this->editArticle["id"])],
+    //         'editArticle.type_article_id' => "required|exists:App\Models\TypeArticle,id",
+    //         'editArticle.article_proprietes.*.valeur' => "required",
+    //     ];
+    // }
     public function render()
     {
         Carbon::setLocale("fr");
         $articleQuery = Article::query();
 
-        if($this->search != "")
-        {
-            $articleQuery->where("nom","LIKE","%".$this->search."%")
-                          ->orWhere("noSerie","LIKE","%".$this->search."%");
+        if ($this->search != "") {
+            $articleQuery->where("nom", "LIKE", "%" . $this->search . "%")
+                ->orWhere("noSerie", "LIKE", "%" . $this->search . "%");
         }
-        
-        if($this->filtreType != "")
-        {
-            $articleQuery->where("type_article_id",$this->filtreType);
+
+        if ($this->filtreType != "") {
+            $articleQuery->where("type_article_id", $this->filtreType);
         }
-        if($this->filtreEtat != "")
-        {
-            $articleQuery->where("estDisponible",$this->filtreEtat);
+        if ($this->filtreEtat != "") {
+            $articleQuery->where("estDisponible", $this->filtreEtat);
         }
-        if($this->editArticle !== [])
-        {
+        if ($this->editArticle !== []) {
             $this->showEditBouttun();
         }
-        return view('livewire.articles.index',[
-            "articles"=>$articleQuery->latest()->where("nom","LIKE","%".$this->search."%")
-                                            ->paginate(5),
-            "typearticles"=>TypeArticle::orderBy("nom","ASC")->get()
+        return view('livewire.articles.index', [
+            "articles" => $articleQuery->latest()->where("nom", "LIKE", "%" . $this->search . "%")
+                ->paginate(5),
+            "typearticles" => TypeArticle::orderBy("nom", "ASC")->get()
         ])
-               ->extends('layouts.master')
-               ->section('contenu');
+            ->extends('layouts.master')
+            ->section('contenu');
     }
 
     public function comfirmDeleteArticle(Article $article)
     {
-        $this->dispatchBrowserEvent("showConfirmMessage",[
-            "message"=>[
-                "title"=>"Continuer!!",
-                "text"=>"Vous levez vous supprimer cet article",
-                "type"=>"warning",
-                "data"=>[
-                    "article_id"=>$article
+        $this->dispatchBrowserEvent("showConfirmMessage", [
+            "message" => [
+                "title" => "Continuer!!",
+                "text" => "Vous levez vous supprimer cet article",
+                "type" => "warning",
+                "data" => [
+                    "article_id" => $article
                 ]
             ]
-            ]);
+        ]);
     }
 
     public function updated($proprety)
     {
-        if($proprety == "addArticle.type")
-        {
+        if ($proprety == "addArticle.type") {
             $this->proprieteArticles = TypeArticle::find($this->addArticle["type"])->proprietes;
         }
     }
@@ -123,7 +120,7 @@ protected function rules(){
     {
         $article->delete();
 
-        $this->dispatchBrowserEvent("showSuccessMessage",["message"=>"Article supprimé avec success!!"]);
+        $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Article supprimé avec success!!"]);
     }
 
     //formulaire d'ajout d'un article
@@ -138,7 +135,6 @@ protected function rules(){
         $this->addArticle = [];
         $this->resetErrorBag();
         $this->dispatchBrowserEvent("closeModal", []);
-       
     }
 
     //ajouter un article
@@ -149,92 +145,94 @@ protected function rules(){
 
         //reglès de validation des entrés satatiques de notre article
         $validateAttr = [
-            "addArticle.nom"=>"string|min:3|required|unique:articles,nom",
-            "addArticle.noSerie"=>"string|max:50|min:3|required|unique:articles,noSerie",
-            "addArticle.type"=>"required",
-            "images"=>"image|max:10240"
+            "addArticle.nom" => "string|min:3|required|unique:articles,nom",
+            "addArticle.noSerie" => "string|max:50|min:3|required|unique:articles,noSerie",
+            "addArticle.type" => "required",
+            "images" => "image|max:10240"
         ];
 
         $customErrMessage = [];
         $proIds = [];
         // reglès des validations des entrées dynamiques de notre article (le propritées du au type d'article choisi)
-        foreach($this->proprieteArticles as $propriete){
+        foreach ($this->proprieteArticles as $propriete) {
 
-            $Namefield = "addArticle.prop.".$propriete->nomPropriete;
+            $Namefield = "addArticle.prop." . $propriete->nomPropriete;
             $proIds[$propriete->nomPropriete] = $propriete->id;
 
-            if($propriete->estObligatoire == 1){
+            if ($propriete->estObligatoire == 1) {
                 $validateAttr[$Namefield] = "required";
-                $customErrMessage["$Namefield.required"] = "Le champ  <<". $propriete->nomPropriete .">> est obligatoire";
-            }else{
+                $customErrMessage["$Namefield.required"] = "Le champ  <<" . $propriete->nomPropriete . ">> est obligatoire";
+            } else {
                 $validateAttr[$Namefield] = "nullable";
             }
         }
-        
-        
-       $data =  $this->validate($validateAttr,$customErrMessage);
-       
-       $imagePath = "img/photo.png";
 
-            if($this->images != ""){
 
-             $path = $this->images->store('upload', 'public');
-             $imagePath = "storage/".$path;
+        $data =  $this->validate($validateAttr, $customErrMessage);
 
-            }
+        $imagePath = "img/photo.png";
+
+        if ($this->images != "") {
+
+            $path = $this->images->store('upload', 'public');
+            $imagePath = "storage/" . $path;
+            $image = Image::make(public_path($imagePath))->fill(200, 200);
+        }
         $article =  Article::create([
             "nom" => $data["addArticle"]["nom"],
             "noSerie" => $data["addArticle"]["noSerie"],
             "type_article_id" => $data["addArticle"]["type"],
-            "imageUrl"=>$imagePath
+            "imageUrl" => $image
         ]);
 
-        foreach($data["addArticle"]["prop"]?: [] as $key=>$propriete){
+        foreach ($data["addArticle"]["prop"] ?: [] as $key => $propriete) {
             ArticlePropriete::create([
-                "article_id"=>$article->id,
-                "propriete_article_id"=>$proIds[$key],
-                "valeur"=>$propriete
+                "article_id" => $article->id,
+                "propriete_article_id" => $proIds[$key],
+                "valeur" => $propriete
             ]);
         }
         $this->closeModal();
-        $this->dispatchBrowserEvent("showSuccessMessage",["message"=>"Article ajouté avec succès!!"]);
+        $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Article ajouté avec succès!!"]);
     }
 
     //modification d'un article (formaulaire de modifiaction)
 
- public function editArticle($articleId)
- {
-    $this->editArticle = Article::with("type","article_proprietes.propriete")->find($articleId)->toArray();
-    $this->valueEditOld = $this->editArticle;
-    $this->dispatchBrowserEvent("showEditModal",[]);
- }
-// fonction de modification d'un article
-
-public function updateArticle()
-{
-    $this->validate();
-
-    $article = Article::find($this->editArticle["id"]);
-    $article->fill($this->editArticle);
-
-    if($this->imageEdit!==null){
-        $path = $this->imageEdit->store('upload', 'public');
-        $imagePath = "storage/".$path;
-
-        Storage::disk("local")->delete(str_replace("storage/","public/",$article->imageUrl));
+    public function editArticle($articleId)
+    {
+        $this->editArticle = Article::with("type", "article_proprietes.propriete")->find($articleId)->toArray();
+        $this->valueEditOld = $this->editArticle;
+        $this->dispatchBrowserEvent("showEditModal", []);
     }
-    $article->save();
-    
-collect($this->editArticle["article_proprietes"])
-->each(function($tiem));
+    // fonction de modification d'un article
 
-$this->dispatchBrowserEvent("showSuccessMessage",["message"=>"Article mis à jour avec succès!!"]);
-$this->closeEditModal();
+    public function updateArticle()
+    {
+        $this->validate();
 
-}
+        $article = Article::find($this->editArticle["id"]);
+        $article->fill($this->editArticle);
 
- public function closeEditModal()
- {
-     $this->dispatchBrowserEvent("closeEditModal");
- }
+        if ($this->imageEdit != "") {
+            $path = $this->imageEdit->store('upload', 'public');
+            $imagePath = "storage/" . $path;
+            $image = Image::make(public_path($imagePath))->fill(200, 200);
+            $image->save();
+        }
+        $article->save();
+        collect($this->editArticle["article_proprietes"])->each(function ($item) {
+            ArticlePropriete::where([
+                "article_id" => $item["article_id"],
+                "propriete_article_id" => $item["propriete_article_id"],
+            ])->update(["valeur" => $item["valeur"]]);
+        });
+
+        $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Article mis à jour avec succès!!"]);
+        $this->closeEditModal();
+    }
+
+    public function closeEditModal()
+    {
+        $this->dispatchBrowserEvent("closeEditModal");
+    }
 }
