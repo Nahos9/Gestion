@@ -34,6 +34,7 @@ class ArticleComp extends Component
 
     public $editArticle = [];
 
+    public $inputFile = 0;
     public $hasChange;
 
     public $valueEditOld = [];
@@ -127,6 +128,11 @@ class ArticleComp extends Component
 
     public function showAddForm()
     {
+        $this->resetValidation();
+        $this->addArticle = [];
+        $this->proprieteArticles = [];
+        $this->images = null;
+        $this->inputFile++;
         $this->dispatchBrowserEvent("showModal");
     }
 
@@ -176,13 +182,14 @@ class ArticleComp extends Component
 
             $path = $this->images->store('upload', 'public');
             $imagePath = "storage/" . $path;
-            $image = Image::make(public_path($imagePath))->fill(200, 200);
+            $image = Image::make(public_path($imagePath))->fit(200, 200);
+            $image->save();
         }
         $article =  Article::create([
             "nom" => $data["addArticle"]["nom"],
             "noSerie" => $data["addArticle"]["noSerie"],
             "type_article_id" => $data["addArticle"]["type"],
-            "imageUrl" => $image
+            "imageUrl" => $imagePath
         ]);
 
         foreach ($data["addArticle"]["prop"] ?: [] as $key => $propriete) {
@@ -234,5 +241,19 @@ class ArticleComp extends Component
     public function closeEditModal()
     {
         $this->dispatchBrowserEvent("closeEditModal");
+    }
+
+    protected function cleanupOldUploads()
+    {
+        $storage = Storage::disk("local");
+
+        foreach ($storage->allFiles("livewire-tmp") as $pathFileName) {
+            if (!$storage->exists($pathFileName)) continue;
+
+            $fiveSecondDelete = now()->subSeconds(5)->timestamp;
+            if ($fiveSecondDelete > $storage->lastModified($pathFileName)) {
+                $storage->delete($pathFileName);
+            }
+        }
     }
 }

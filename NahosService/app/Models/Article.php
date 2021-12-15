@@ -11,26 +11,25 @@ class Article extends Model
 {
     use HasFactory;
 
-    protected $fillable = ["nom","noSerie","type_article_id","imageUrl"];
+    protected $fillable = ["nom", "noSerie", "type_article_id", "imageUrl"];
+
     public function type()
     {
-        return $this->belongsTo(TypeArticle::class ,"type_article_id", "id");
+        return $this->belongsTo(TypeArticle::class, "type_article_id", "id");
     }
 
     public function proprieteArticles()
     {
-        return $this->belongsToMany(ProprieteArticle::class,"article_propriete","article_id","propriete_article_id");
+        return $this->belongsToMany(ProprieteArticle::class, "article_propriete", "article_id", "propriete_article_id");
     }
-    
+
     public function locations()
     {
-        return $this->belongsToMany(Location::class,"article_location","article_id","location_id");
+        return $this->belongsToMany(Location::class, "article_location", "article_id", "location_id");
     }
 
     public function article_proprietes()
     {
-       return $this->hasMany(ArticlePropriete::class);
+        return $this->hasMany(ArticlePropriete::class);
     }
-
-    
 }

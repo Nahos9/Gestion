@@ -54,7 +54,7 @@
               
               <div class="p-4">
                         <div class="form-group">
-                            <input type="file"  wire:model="images">
+                            <input type="file"  wire:model="images" id="image{{$inputFile}}">
                         </div>
                         <div style="border: 1px solid #d0d1d3; border-radius:20px; height:300px; overflow:hidden;">
                           @if ($images)
