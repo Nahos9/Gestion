@@ -35,19 +35,20 @@ class ArticleComp extends Component
     public $editArticle = [];
 
     public $inputFile = 0;
+    public $inpuEdittFile = 0;
     public $hasChange;
 
     public $valueEditOld = [];
 
-    // protected function rules()
-    // {
-    //     return [
-    //         'editArticle.nom' => ["required", Rule::unique("articles", "nom")->ignore($this->editArticle["id"])],
-    //         'editArticle.noSerie' => ["required", Rule::unique("articles", "noSerie")->ignore($this->editArticle["id"])],
-    //         'editArticle.type_article_id' => "required|exists:App\Models\TypeArticle,id",
-    //         'editArticle.article_proprietes.*.valeur' => "required",
-    //     ];
-    // }
+    protected function rules()
+    {
+        return [
+            'editArticle.nom' => ["required", Rule::unique("articles", "nom")->ignore($this->editArticle["id"])],
+            'editArticle.noSerie' => ["required", Rule::unique("articles", "noSerie")->ignore($this->editArticle["id"])],
+            'editArticle.type_article_id' => "required|exists:App\Models\TypeArticle,id",
+            'editArticle.article_proprietes.*.valeur' => "required",
+        ];
+    }
     // cette founction permet de savoir si une  valeur d'une propriété de notre article à changer et afficher le boutton de modification
     public function showEditBouttun()
     {
@@ -68,20 +69,20 @@ class ArticleComp extends Component
     }
 
 
-    protected function rules()
-    {
-        return [
-            'editArticle.nom' => ["required", Rule::unique("articles", "nom")->ignore($this->editArticle["id"])],
-            'editArticle.noSerie' => ["required", Rule::unique("articles", "noSerie")->ignore($this->editArticle["id"])],
-            'editArticle.type_article_id' => "required|exists:App\Models\TypeArticle,id",
-            'editArticle.article_proprietes.*.valeur' => "required",
-        ];
-    }
+    // protected function rules()
+    // {
+    //     return [
+    //         'editArticle.nom' => ["required", Rule::unique("articles", "nom")->ignore($this->editArticle["id"])],
+    //         'editArticle.noSerie' => ["required", Rule::unique("articles", "noSerie")->ignore($this->editArticle["id"])],
+    //         'editArticle.type_article_id' => "required|exists:App\Models\TypeArticle,id",
+    //         'editArticle.article_proprietes.*.valeur' => "required",
+    //     ];
+    // }
     public function render()
     {
         Carbon::setLocale("fr");
         $articleQuery = Article::query();
-
+        $this->resetPage();
         if ($this->search != "") {
             $articleQuery->where("nom", "LIKE", "%" . $this->search . "%")
                 ->orWhere("noSerie", "LIKE", "%" . $this->search . "%");
@@ -218,6 +219,9 @@ class ArticleComp extends Component
     {
         $this->editArticle = Article::with("type", "article_proprietes.propriete")->find($articleId)->toArray();
         $this->valueEditOld = $this->editArticle;
+
+        $this->imageEdit = null;
+        $this->inpuEdittFile++;
         $this->dispatchBrowserEvent("showEditModal", []);
     }
     // fonction de modification d'un article

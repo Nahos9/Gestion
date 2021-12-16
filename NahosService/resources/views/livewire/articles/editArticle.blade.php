@@ -51,7 +51,7 @@
               
               <div class="p-4">
                         <div class="form-group">
-                            <input type="file"  wire:model="imageEdit">
+                            <input type="file"  wire:model="imageEdit" id="image{{$inpuEdittFile}}">
                         </div>
                         <div style="border: 1px solid #d0d1d3; border-radius:20px; height:300px; overflow:hidden;">
                           @if (isset($imageEdit))
