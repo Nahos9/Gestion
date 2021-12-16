@@ -39,6 +39,15 @@ class ArticleComp extends Component
 
     public $valueEditOld = [];
 
+    // protected function rules()
+    // {
+    //     return [
+    //         'editArticle.nom' => ["required", Rule::unique("articles", "nom")->ignore($this->editArticle["id"])],
+    //         'editArticle.noSerie' => ["required", Rule::unique("articles", "noSerie")->ignore($this->editArticle["id"])],
+    //         'editArticle.type_article_id' => "required|exists:App\Models\TypeArticle,id",
+    //         'editArticle.article_proprietes.*.valeur' => "required",
+    //     ];
+    // }
     // cette founction permet de savoir si une  valeur d'une propriété de notre article à changer et afficher le boutton de modification
     public function showEditBouttun()
     {
@@ -59,15 +68,15 @@ class ArticleComp extends Component
     }
 
 
-    // protected function rules()
-    // {
-    //     return [
-    //         'editArticle.nom' => ["required", Rule::unique("articles", "nom")->ignore($this->editArticle["id"])],
-    //         'editArticle.noSerie' => ["required", Rule::unique("articles", "noSerie")->ignore($this->editArticle["id"])],
-    //         'editArticle.type_article_id' => "required|exists:App\Models\TypeArticle,id",
-    //         'editArticle.article_proprietes.*.valeur' => "required",
-    //     ];
-    // }
+    protected function rules()
+    {
+        return [
+            'editArticle.nom' => ["required", Rule::unique("articles", "nom")->ignore($this->editArticle["id"])],
+            'editArticle.noSerie' => ["required", Rule::unique("articles", "noSerie")->ignore($this->editArticle["id"])],
+            'editArticle.type_article_id' => "required|exists:App\Models\TypeArticle,id",
+            'editArticle.article_proprietes.*.valeur' => "required",
+        ];
+    }
     public function render()
     {
         Carbon::setLocale("fr");
@@ -223,8 +232,10 @@ class ArticleComp extends Component
         if ($this->imageEdit != "") {
             $path = $this->imageEdit->store('upload', 'public');
             $imagePath = "storage/" . $path;
-            $image = Image::make(public_path($imagePath))->fill(200, 200);
+            $image = Image::make(public_path($imagePath))->fit(200, 200);
             $image->save();
+            Storage::disk("local")->delete(str_replace("storage/", "public/upload", $article->imageUrl));
+            $article->imageUrl = $imagePath;
         }
         $article->save();
         collect($this->editArticle["article_proprietes"])->each(function ($item) {
@@ -240,6 +251,7 @@ class ArticleComp extends Component
 
     public function closeEditModal()
     {
+
         $this->dispatchBrowserEvent("closeEditModal");
     }
 
