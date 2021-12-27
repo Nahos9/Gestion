@@ -32,4 +32,9 @@ class Article extends Model
     {
         return $this->hasMany(ArticlePropriete::class);
     }
+
+    public function tarifications()
+    {
+        return $this->hasMany(Tarification::class);
+    }
 }

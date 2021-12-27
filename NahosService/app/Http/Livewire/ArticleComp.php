@@ -129,6 +129,14 @@ class ArticleComp extends Component
     //suppression de l'article
     public function deleteArticle(Article $article)
     {
+        if (count($article->locations) > 0) return;
+
+        if (count($article->article_proprietes) > 0)
+            $article->article_proprietes()->where("article_id", $article->id)->delete();
+
+        if (count($article->tarifications) > 0)
+            $article->tarifications()->where("article_id", $article->id)->delete();
+
         $article->delete();
 
         $this->dispatchBrowserEvent("showSuccessMessage", ["message" => "Article supprimé avec success!!"]);
