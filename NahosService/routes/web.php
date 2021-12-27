@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\UserController;
 use App\Http\Livewire\ArticleComp;
+use App\Http\Livewire\TarifComp;
 use App\Http\Livewire\TypeArticleComp;
 use App\Http\Livewire\Utilisateur;
 use Illuminate\Support\Facades\Auth;
@@ -27,27 +28,29 @@ Auth::routes();
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 Route::group([
-    "middleware"=> ["auth","auth.admin"],
-    "as"=> "admin."
-],function(){
+    "middleware" => ["auth", "auth.admin"],
+    "as" => "admin."
+], function () {
     Route::group([
-        "prefix"=> "habillitation",
+        "prefix" => "habillitation",
         "as" => "habillitation."
-    ],function(){
+    ], function () {
 
-        Route::get("/user",Utilisateur::class)->name("index");
+        Route::get("/user", Utilisateur::class)->name("index");
     });
 
     Route::group([
-        "prefix"=> "gestarticles",
+        "prefix" => "gestarticles",
         "as" => "gestarticles."
-    ],function(){
+    ], function () {
 
-        Route::get("/typeArticle",TypeArticleComp::class)->name("typearticles");
+        Route::get("/typeArticle", TypeArticleComp::class)->name("typearticles");
 
-        Route::get("/articles",ArticleComp::class)->name("articles");
+        Route::get("/articles", ArticleComp::class)->name("articles");
+
+        Route::get("/articles/{articleId}/tarifs", TarifComp::class)->name("articles.tarifs");
     });
-    });
+});
 
 
 // Route::get('/user',[UserController::class,'index'])->name('user')->middleware("auth.admin");

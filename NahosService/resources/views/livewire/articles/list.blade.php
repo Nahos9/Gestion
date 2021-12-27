@@ -70,7 +70,8 @@
                      </td>
                      <td>{{optional($article->created_at)->diffForHumans()}}</td>
                      <td>
-                      <button class="btn btn-link" wire:click='editArticle({{$article->id}})'> <i class="far fa-edit btn btn-link"> Editer</i></button>
+                      <a class="btn btn-link" href="{{route("admin.gestarticles.articles.tarifs",["articleId"=>$article->id])}}"> <i class="fas fa-dollar-sign  "></i>Tarif</a>
+                      <button class="btn btn-link" wire:click='editArticle({{$article->id}})'> <i class="far fa-edit btn btn-link"> Edit</i></button>
                       <button class="btn btn-link" wire:click='comfirmDeleteArticle({{$article->id}})'> <i class="far fa-trash-alt  btn btn-link"> Supprimer</i></button>
                      </td>
                   </tr> 
